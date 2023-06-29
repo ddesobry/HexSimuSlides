@@ -1,0 +1,485 @@
+\documentclass{beamer}
+
+\usetheme{Antibes}
+\usecolortheme{lily}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkred}{rgb}{0.5,0,0}
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshortinstitute
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}\insertframenumber/\inserttotalframenumber\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+% Réduire la taille de la police de la table des matières
+\setbeamerfont{section in toc}{size=\small}
+\setbeamerfont{subsection in toc}{size=\small}
+
+\title{Génération de maillages hexaédriques pour des simulations de grandes déformations}
+\author[David Desobry]{\texorpdfstring {\scriptsize \textit{Soutenance de thèse \\ \vspace{0.1cm} }} \texorpdfstring{\scriptsize par \\ \vspace{0.1cm}} \texorpdfstring{\normalsize David DESOBRY {}}{}}
+\institute[Université de Lorraine] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+
+{\small \textit{Directeurs : }}
+\medskip
+{\small Dmitry SOKOLOV, Nicolas RAY, Jeanne PELLERIN}
+\vspace{0.2 cm}
+\texorpdfstring{\\ \scriptsize \textit{Jury : }}
+\medskip
+{\small \ \ \ Christian GENTIL, Jeanne PELLERIN,\quad \quad \quad \quad \quad \\  
+\quad Simon CALDERAN, Emmanuel JEANDEL\\}
+\begin{center}
+    \noindent
+    \begin{minipage}{.33\textwidth}
+        \centering
+    \includegraphics[width=.8\linewidth]{inria.jpg}
+    \end{minipage}%
+    \begin{minipage}{.33\textwidth}
+    \centering
+    \includegraphics[width=.8\linewidth]{UL.png}
+    \end{minipage}%
+    \begin{minipage}{.33\textwidth}
+        \centering
+    \includegraphics[width=.6\linewidth]{total_energies.jpg}
+    \end{minipage}
+\end{center}
+}
+\date{23 Août 2023}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsection, sectionstyle=show/show, subsectionstyle=show/hide/hide]
+\end{frame}
+
+\section{Maillage hexaédrique et simulation de déformation}
+
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
+\end{frame}
+\subsection{Introduction aux simulations numériques de déformation}
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+\begin{frame}{Evolution de la roue}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.79\textwidth]{img/plagiat/evolution-roue.jpg}
+        \caption{
+        L'évolution de la roue depuis son invention -3500 avant J.C (gauche), son allègement avec les inventions des roues à rayons en -2000 avant J.C (milieu), jusqu'aux roues à pneus en caoutchouc des véhicules que l'on utilise aujourd'hui (droite).
+        }
+        \label{fig:invention_roue}
+    \end{figure}
+\end{frame}
+\begin{frame}{Simulation d'aquaplanage par Michelin}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.79\textwidth]{img/plagiat/simulation_pneumatique_michelin.PNG}
+        \caption{
+            L'objectif est de s'assurer que les pneus développés par l'entreprise respectent les normes de sécurité en termes d'aquaplanage, 
+            même lorsqu'ils sont usés. Image issue de \url{https://www.youtube.com/watch?v=S6csZMRy_xk}
+        }
+        \label{fig:simu_michelin}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}{Simulation Numérique: Choix de la méthode}
+
+    \begin{itemize}
+        \item \only<1-5>{\textbf{Le modèle physique} \textcolor{darkgreen}{\footnotesize(hyperélasticité, plasticité, rupture)}}\only<6->{\textbf{Le modèle physique:} \textcolor{darkred}{\footnotesize{Choix: hyperélasticité}}}
+        \item \only<2-5>{\textbf{La méthode numérique} \textcolor{darkgreen}{\footnotesize(méthode des éléments finies, différences finies, volumes finis)}}\only<6->{\textbf{La méthode numérique:} \textcolor{darkred}{\footnotesize{Choix: méthode des éléments finis}}}
+        \item \only<3-5>{\textbf{La discrétisation en maillage} \textcolor{darkgreen}{\footnotesize(maillage triangulaire, quadrilatère, tétraèdrique, hexaédrique, hybride)}}\only<6->{\textbf{La discrétisation en maillage:} \textcolor{darkred}{\footnotesize{Choix: maillage quadrilatère / hexaédrique}}}
+        \item \only<4-5>{\textbf{Les critères de convergence} \textcolor{darkgreen}{\footnotesize(critère de déplacement, critère de minimisation)}}\only<6->{\textbf{Les critères de convergence:} \textcolor{darkred}{\footnotesize{Choix: critère de déplacement et d'énergie sur une méthode de Newton}}}
+        \item \only<5-5>{\textbf{Validation et vérification} \textcolor{darkgreen}{\footnotesize(comparaison des résultats avec des données de référence)}}\only<6->{\textbf{Validation et vérification:} \textcolor{darkred}{\footnotesize{Choix: si une simulation atteint l'itération finale, on la considère réussie}}}
+    \end{itemize}
+
+\end{frame}
+
+\subsection{Critère de qualité d'un maillage hexaédrique pour ces simulations}
+
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+\begin{frame}{Définition et propriétés fondamentales du maillage}
+    \small{
+        \textbf{Définition :} Un maillage $\mathcal{M}$ décompose un domaine géométrique fermé $\Omega$ en un ensemble fini d'éléments polyédriques $(\sigma_i)_N$. 
+        \begin{align*}
+            \Omega = \bigcup_{0 \leq i \leq N}{\sigma_i}
+        \end{align*}
+    }
+    \newline
+    \small{
+        \textbf{Conformité :} Un maillage est conforme si l'intersection entre deux éléments adjacents est vide, un sommet commun, une arête commune ou une face commune.\\
+    }
+    \vspace{0.5cm}
+    \small{
+        \textbf{Description CAO :} Représentation numérique d'un objet dans un espace 2D ou 3D utilisant des entités géométriques primitives.
+    }
+\end{frame}
+\begin{frame}{Un maillage conforme unique pour toute la simulation}
+    \begin{columns}
+    \column{0.5\textwidth}
+    \small{
+        \textbf{Objectif :} Un maillage unique pour toute la simulation, conservant une bonne qualité malgré les déformations.\\
+    }
+    \vspace{0.3cm}
+    \small{
+        \textbf{Avantage :} Les hexaèdres peuvent être déformés sans affecter leurs angles dièdres, contrairement aux tétraèdres.\\
+    }
+    \vspace{0.3cm}
+    \small{
+        \textbf{Défi :} Créer ces maillages complexes peut prendre plusieurs mois de travail ingénieur.\\
+    }
+    \column{0.5\textwidth}
+        \includegraphics[width=\textwidth]{img/choix_maillage/deformation_low_angle.png}
+    \end{columns}
+    \end{frame}
+
+
+\begin{frame}{Maillage hexaédrique de qualité pour ce type de simulation}
+    \small{
+        \textbf{Angles dièdres :} Entre 45 et 135 degrés pour éviter les problèmes de convergence.\\
+    }
+    \vspace{0.5cm}
+    \small{
+        \textbf{Rapport d'aspect :} Maximum de 100 entre la plus grande et la plus petite arête d'un hexaèdre.\\
+    }
+    \vspace{0.5cm}
+    \small{
+        \textbf{Alignement avec les bords :} Permet de préserver la qualité des angles pendant la simulation.\\
+    }
+    \vspace{0.5cm}
+    \small{
+        \textbf{Haute qualité localisée :} Crucial dans les zones à haut gradient de force pour minimiser les erreurs numériques.\\
+    }
+\end{frame}
+
+\subsection{Maillage hexaédrique à partir d'un champ de repère}
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+\begin{frame}{Lien entre champ de repère 2D et maillage quadrilatère}
+    \begin{center}
+        \includegraphics[width=\linewidth]{img/quadsimu/singus.PNG}
+        \small{
+            \textit{Les singularités d'un champ de repère sont utilisées pour déterminer la position des sommets de valence différente de 4 dans le maillage quadrilatère.}
+        }
+    \end{center}
+\end{frame}
+\begin{frame}{Quadcover pour générer un maillage quadrilatère}
+    \begin{center}
+        \includegraphics[width=\linewidth]{img/cubecover/pipeline.PNG}
+        \small{
+            \textit{Les différentes étapes de la méthode Quadcover pour construire un maillage quadrilatère.}
+        }
+    \end{center}
+\end{frame}
+\begin{frame}{En 3D: Cubecover pour générer un maillage hexaédrique}
+    \begin{center}
+        \includegraphics[width=\linewidth]{img/cubecover/B34_graphe_interieur.PNG}
+        \small{
+            \textit{Cubecover utilise le graphe de singularité d'un champ de repère 3D pour construire un maillage hexaédrique partageant le même graphe de singularité.}
+        }
+    \end{center}
+\end{frame}
+\section{Contribution: Champ de repère pour générer un maillage CAO }
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
+\end{frame}
+\subsection{Champ 2D pour maillage quadrilatère de modèle CAO}
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+\iffalse
+\begin{frame}{Champ de repère 2D plat}
+    \small{
+    Un champ de repère orthogonal 2D est représenté par une croix. Pour obtenir un champ de repère lisse, on interpole $X$ et $Y$ dans le domaine 2D. On formule le problème comme un problème d'optimisation pour rendre les valeurs de $X$ et $Y$ pour les triangles voisins aussi similaires que possible.
+    
+    \begin{equation*}
+    \begin{array}{ll}
+    \underset{X, Y}{\argmin} & \underset{t \in T}{\displaystyle\sum} \underset{t' \in \mathcal{N}(t)}{\displaystyle\sum} \left|\left|\ \begin{pmatrix} X_{t'}\\ Y_{t'}\end{pmatrix} - \begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} \right|\right|^2, \\
+    \text{sous contrainte: } & \forall t \in T_b, \begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} = \begin{pmatrix} \cos4\eta_t\\ \sin4\eta_t\end{pmatrix}.
+    \end{array}
+    \end{equation*}
+    }
+\end{frame}
+\fi
+
+\subsection{Champ 3D pour maillage hexaédrique de modèle CAO}
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+\subsection{Champ de repère non-orthogonal}
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+
+\begin{frame}{Repère 2D en tant que fonction polynomiale}
+    \centering
+    \vspace*{0.2\baselineskip}
+    \small{
+    $\mathcal{U} = \left\{\vec{u},\ -\vec{u},\ \vec{v},\ -\vec{v}\right\}$ est représenté par un polynôme \\
+    \textbf{restreint à un cercle} \\
+    \vspace*{0.45\baselineskip}
+    \includegraphics[width=0.36\linewidth]{img_spm_ff/poly_2D_8_2.PNG}
+    \includegraphics[width=0.36\linewidth]{img_spm_ff/poly_2D_8_1.PNG}
+    
+    \begin{itemize}
+    \item Un polynôme restreint à un cercle donne les symétries désirées
+    \item $dist(\mathcal{U}_i, \mathcal{U}_j) = \int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2$
+    \item $P_\mathcal{U}$ a géométriquement la forme de $\mathcal{U}$ 
+    \end{itemize}
+    }
+\end{frame}
+\begin{frame}{Polynôme représentant un repère à 2 directions}
+    \centering
+    \small{
+    $\mathcal{U} = \left\{\vec{u},\ -\vec{u},\ \vec{v},\ -\vec{v}\right\}$ est représenté par un polynôme \\
+    \textbf{restreint à un cercle}
+    }
+    $$ P_\mathcal{U}(\vec{s}) = \langle \vec{u},\ \vec{s}\rangle^{4} +  \langle \vec{v},\ \vec{s}\rangle^{4}, \ \ \   \forall \vec{s} \in {\rm I\!R}^2, \lVert \vec{s} \rVert = 1$$
+    \includegraphics[width=0.4\linewidth]{img_spm_ff/anoted_orthogonal.PNG}
+    \ \ \ 
+    \includegraphics[width=0.4\linewidth]{img_spm_ff/anoted_polynome.PNG}
+\end{frame} 
+\begin{frame}{Décomposition dans la base de Fourier}
+    \centering
+    \begin{overprint}
+    \onslide<1> \centering
+    Les polynômes de repères 2D orthogonaux peuvent être décomposés dans la base de Fourier comme suit :
+    
+    \vspace*{0.5\baselineskip}
+    \includegraphics[width=0.95\linewidth]{img_spm_ff/ortho_decomposition_with_circle.PNG}
+    
+    $$ dist(\mathcal{U}_i, \mathcal{U}_j) =  \int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2 =  \left({\color{green}c_3(\mathcal{U}_i)} - {\color{green}c_3(\mathcal{U}_j)} \right)^2 
+    + \left({\color{green}c_4(\mathcal{U}_i)} - {\color{green}c_4(\mathcal{U}_j)} \right)^2$$
+    \onslide<2> \centering
+    Les termes du $2^{nd}$ ordre sont nécessaires pour la non-orthogonalité
+    
+    \vspace*{0.5\baselineskip}
+    \includegraphics[width=0.95\linewidth]{img_spm_ff/polynome_decomposition_with_circle.PNG}
+    $$ dist(\mathcal{U}_i, \mathcal{U}_j) =  \int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2 = \sum_{\ell=1}^4 \left({\color{green}c_\ell(\mathcal{U}_i)} - {\color{green}c_\ell(\mathcal{U}_j)} \right)^2$$
+    \end{overprint}
+\end{frame} 
+\begin{frame}{2D Optimization}
+    \centering
+    \small
+    %From the decomposition in the Fourier basis, we define
+    %$$ dist(\mathcal{U}_i, \mathcal{U}_j) =  \int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2 = \sum_{\ell=1}^4 \left({\color{green}c_\ell(\mathcal{U}_i)} - {\color{green}c_\ell(\mathcal{U}_j)} \right)^2$$
+    Pour calculer un champ de repère non-orthogonal 2D lisse, nous minimisons avec LBFGS l'énergie suivante :
+    $$ E_{tot} = \sum_{Voisins(i, j)} dist(\mathcal{U}_i, \mathcal{U}_j)$$
+    
+    Contrôle de l'orthogonalité: $c_1, c_2, c_3, c_4 \mapsto \lambda c_1, \lambda c_2, c_3, c_4$ 
+     
+     \vspace*{0.5\baselineskip}
+     %modifies the orthogonality of the field : 
+    \begin{minipage}[b]{0.15\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img_spm_ff/perced_1}
+        $\lambda = 0.1$
+    \end{minipage}
+    \ \ \ 
+    %\hfill
+    \begin{minipage}[b]{0.15\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img_spm_ff/perced_9}
+        $\lambda = 0.5$
+    \end{minipage}
+    %\hfill
+    \ \ \ 
+    \begin{minipage}[b]{0.15\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img_spm_ff/perced_16}
+        $\lambda = 1$
+    \end{minipage}
+    %\hfill
+    \ \ \ 
+    \begin{minipage}[b]{0.15\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img_spm_ff/perced_25}
+        $\lambda = 1.5$
+    \end{minipage}
+\end{frame} 
+
+\begin{frame}{2D Results}
+    \centering
+    
+    \begin{minipage}[c]{0.45\textwidth}
+    \centering 
+    \textbf{Orthogonal fields}
+    \vspace*{1\baselineskip}
+    
+     \includegraphics[width=0.7\linewidth]{img_spm_ff/quads_ortho_shurik0.PNG}
+    \includegraphics[width=0.8\linewidth]{img_spm_ff/q_2_ortho_fail.PNG}
+    %\includegraphics[width=.9\linewidth]{comp1.png}
+    \end{minipage}%
+    \hfill\vline\hfill
+    \begin{minipage}[c]{0.45\textwidth}
+    \centering 
+    \textbf{Non-orthogonal fields}
+    \vspace*{1\baselineskip}
+    
+    \includegraphics[width=0.7\linewidth]{img_spm_ff/quads_nonortho_shurik0.PNG}
+    \includegraphics[width=0.8\linewidth]{img_spm_ff/q_2.PNG}
+    \end{minipage}
+\end{frame} 
+\begin{frame}{Polynôme représentant un repère à 3 directions}
+    \centering
+    \small
+    $\mathcal{U} = \left\{\vec{u},\ -\vec{u},\ \vec{v},\ -\vec{v},\ \vec{w},\ -\vec{w}\right\}$ est représenté par un polynôme \\
+    \textbf{restreint à un cercle}
+    %$$P_\mathcal{U} \colon s \mapsto \langle \vec{u},\ s\rangle^{4} +  \langle \vec{v},\ s\rangle^{4} +  \langle \vec{w},\ s\rangle^{4}$$
+    $$ P_\mathcal{U}(\vec{s}) = \langle \vec{u},\ \vec{s}\rangle^{4} +  \langle \vec{v},\ \vec{s}\rangle^{4} +  \langle \vec{w},\ \vec{s}\rangle^{4}, \ \ \   \forall \vec{s} \in {\rm I\!R}^3, \lVert \vec{s} \rVert = 1$$
+    
+    \vspace*{.5\baselineskip}
+    \includegraphics[width=0.33\linewidth]{img_spm_ff/sperical_3dir4.png}
+    \ \ \ \ \ \ \ \ \ \ \ 
+    \includegraphics[width=0.3\linewidth]{img_spm_ff/sperical_3dir4_rot.png}
+    %\begin{align*}
+     %  p_c \colon & s \mapsto \langle u,\ s\rangle^{4} +  \langle v,\ s\rangle^{4} +  \langle w,\ s\rangle^{4} \\
+     %  & \mathcal{S}_{\{0, 1\}}^3 \to {\rm I\!R}
+    %\end{align*}
+\end{frame} 
+\begin{frame}{Décomposition dans la base des Harmoniques Sphériques}
+    \centering
+    \begin{overprint}
+    \onslide<1> \centering
+    \small
+    Les polynômes de repères 3D orthogonaux peuvent être décomposés dans la base des Harmoniques Sphériques comme suit :\\
+    \begin{minipage}[c]{0.24\textwidth}
+        \centering
+          \vspace*{.5\baselineskip}
+          \hfill
+        \includegraphics[width=0.6\linewidth]{img_spm_ff/sperical_3dir4.png}
+    \end{minipage}
+    \begin{minipage}[c]{0.74\textwidth}
+        $$P_\mathcal{U}(s) = const \cdot Y_{0, 0} + \sum_{m = -4}^4{{\color{green}c_{4, m}(\mathcal{U})}Y_{4,m}(s)}$$ 
+    \end{minipage}
+    
+    \vspace*{.5\baselineskip}
+    \includegraphics[width=.8\linewidth]{img_spm_ff/ortho_harmonic_decompo.PNG} 
+    
+    \onslide<2> \centering
+    
+    \small
+    Les termes du $2^{nd}$ ordre sont nécessaires pour la non-orthogonalité:
+    %$$P_\mathcal{U}(s) = const \cdot Y_{0, 0} + \sum_{\ell \in \{2, 4\}} \sum_{m = -\ell}^\ell{{\color{green}c_{\ell, m}(\mathcal{U})}Y_{\ell,m}(s)}$$ 
+    
+    \begin{minipage}[c]{0.19\textwidth}
+        \centering
+          \vspace*{.5\baselineskip}
+          \hfill
+        \includegraphics[width=0.8\linewidth]{img_spm_ff/sperical_3dir4_rot.png}
+    \end{minipage}
+    \begin{minipage}[c]{0.79\textwidth}
+        %\centering
+        %\includegraphics[width=0.33\linewidth]{sperical_3dir4.png}
+        %$$P_\mathcal{U}(s) = const \cdot Y_{0, 0} + \sum_{m = -4}^4{{\color{green}c_{4, m}(\mathcal{U})}Y_{4,m}(s)}$$ 
+        $$P_\mathcal{U}(s) = const \cdot Y_{0, 0} + \sum_{\ell \in \{2, 4\}} \sum_{m = -\ell}^\ell{{\color{green}c_{\ell, m}(\mathcal{U})}Y_{\ell,m}(s)}$$ 
+    \end{minipage}
+    
+    \vspace*{.5\baselineskip}
+    \includegraphics[width=\linewidth]{img_spm_ff/all_sph_harm.PNG} 
+    \end{overprint}
+\end{frame} 
+\begin{frame}{Optimisation d'un champ de repère non-orthogonal 3D}
+    \centering
+    \footnotesize
+     De la décomposition dans la base des Harmoniques, nous définissons:
+    $$ dist(\mathcal{U}_i, \mathcal{U}_j) = \int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2 = \sum_{\ell, m} \left({\color{green}c_{\ell,m}(\mathcal{U}_i)} - {\color{green}c_{\ell,m}(\mathcal{U}_j)} \right)^2$$
+    Pour calculer un champ de repère non-orthogonal 3D lisse, nous minimisons avec LBFGS l'énergie suivante :
+    %To compute smoothed frame field, we minimize with LBFGS 
+    $$ E_{tot} = \sum_{Voisins(i, j)} dist(\mathcal{U}_i, \mathcal{U}_j)$$
+    %\vspace*{.5\baselineskip}
+    %As in 2D, $\forall m,\ \ c_{2,m} \mapsto \lambda c_{2,m}$ modifies the orthogonality of the field. 
+    Contrôle de l'orthogonalité: $\ \ c_{2,m} \mapsto \lambda c_{2,m} \ \ \ \ \ (-2 \leq m \leq 2)$ %modifies the orthogonality of the field. 
+    
+    \begin{minipage}[b]{0.33\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img_spm_ff/shear_0_7.png}
+        $\lambda = 0.7$
+    \end{minipage}
+    \begin{minipage}[b]{0.28\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img_spm_ff/shear_1.png}
+        $\lambda = 1$
+    \end{minipage}
+    
+    \normalsize
+\end{frame} 
+\begin{frame}{3D Results}
+    \centering
+    \begin{minipage}[c]{0.45\textwidth}
+    \centering 
+    \textbf{Champs orthogonaux}
+    \vspace*{1\baselineskip}
+    
+     %\includegraphics[width=0.8\linewidth]{quads_ortho_shurik0.PNG}
+    %\includegraphics[width=0.8\linewidth]{q_2_ortho_fail.PNG}
+    
+    \includegraphics[width=.66\linewidth]{img_spm_ff/shear_ortho.png}
+    \includegraphics[width=.66\linewidth]{img_spm_ff/slope_ortho_front.png}
+    %\includegraphics[width=.9\linewidth]{comp1.png}
+    \end{minipage}%
+    \hfill\vline\hfill
+    \begin{minipage}[c]{0.45\textwidth}
+    \centering 
+    \textbf{Champs non-orthogonaux}
+    \vspace*{1\baselineskip}
+    
+    \includegraphics[width=.66\linewidth]{img_spm_ff/shear_1.png}
+    \includegraphics[width=.66\linewidth]{img_spm_ff/slope_northo_front.png}
+    %\includegraphics[width=0.8\linewidth]{quads_nonortho_shurik0.PNG}
+    %\includegraphics[width=0.8\linewidth]{q_2.PNG}
+    \end{minipage}
+    %\includegraphics[width=.4\linewidth]{shear_ortho.png}
+    %\includegraphics[width=.4\linewidth]{shear_1.png}
+    %\includegraphics[width=0.4\linewidth]{slope_northo_back.png}
+    %\includegraphics[width=.8\linewidth]{cube_twist_3D.png}
+\end{frame} 
+
+
+\section{Contribution: Quadcover pour des simulations de déformation 2D}
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
+\end{frame}
+\subsection{Algorithme de quantification 2D rapide, robuste et open source}
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+\subsection{Génération de maillage adapté à des déformations avec Quadcover}
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+
+\section{Conclusion}
+\begin{frame}
+    \frametitle{Table des matières}
+    \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
+\end{frame}
+
+\end{document}
