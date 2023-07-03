@@ -1,6 +1,8 @@
 \documentclass{beamer}
 \usepackage{tikz}
 \usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
 \usetikzlibrary{fadings}
 \usetikzlibrary{shadows}
 \usetikzlibrary{calc}
@@ -466,13 +468,62 @@
     
 \begin{frame}{Problèmes avec les modèles CAO}
     \begin{center}
-        \includegraphics[width=\linewidth]{img/quadsimu/singus.PNG}
+        \includegraphics[width=0.9\linewidth]{img/cadff/teaser2}
         \small{
-            \textit{Les singularités d'un champ de repère sont utilisées pour déterminer la position des sommets de valence différente de 4 dans le maillage quadrilatère.}
+            \textit{Produire un champ de repère qui a une rotation minimale sur un modèle CAO ne suffit pas toujours pour obtenir un maillage quad de qualité (haut). 
+            Notre algorithme permet de gérer les cas où il y a des configurations d'arêtes caractéristiques formant des petits angles (bas).}
         }
     \end{center}
 \end{frame}
 
+\begin{frame}{Triangles with a small angle}
+
+    \begin{center}
+    \begin{tikzpicture}[scale=1]
+    % Triangle 1
+    \draw[fill=blue!20] (0,0) -- (8,0) -- (8,1) -- cycle;
+    \coordinate (Center1) at ($ (0,0) !.7! (8,0.5) $);
+    % Triangle 2
+    \draw[fill=red!20] (0,0) -- (8,0) -- (8,-1) -- cycle;
+    \coordinate (Center2) at ($ (0,0) !.7! (8,-0.5) $);
+    
+    % Draw the green crosses
+    \begin{scope}[overlay]
+        \node at (Center1) [rotate=-30, green, scale=2] {$\times$};
+        \node at (Center2) [rotate=-10, green, scale=2] {$\times$};
+    \end{scope}
+    \end{tikzpicture}
+    \end{center}
+    
+\end{frame}
+\begin{frame}{Diffusion of $\gamma$}
+    
+    \begin{figure}
+    \centering
+    \begin{subfigure}{.3\textwidth}
+      \centering
+      \includegraphics[width=0.9\linewidth]{img/cadff/sharp0}
+      \caption{Champ le plus lisse}
+    \end{subfigure}%
+    \hspace{0.03\textwidth}
+    \begin{subfigure}{.3\textwidth}
+      \centering
+      \includegraphics[width=0.9\linewidth]{img/cadff/sharp1}
+      \caption{Singularité sur le 1-voisinage}
+    \end{subfigure}
+    \hspace{0.03\textwidth}
+    \begin{subfigure}{.3\textwidth}
+      \centering
+      \includegraphics[width=0.9\linewidth]{img/cadff/sharp2}
+      \caption{Propagation globale de la courbure}
+    \end{subfigure}%
+    \caption{Sur un sommet de coin pointu, le champ le plus lisse produit des lignes de quads qui se concentrent au niveau du sommet (a). Une correction locale peut 
+    résoudre ce problème (b), mais la propagation de la courbure du champ est ce qui permet d'obtenir les lignes de quads les plus utilisables (c).}
+    \label{fig:cadff:sharp2}
+    \end{figure}
+    
+\end{frame}
+    
 \subsection{Champ 3D pour maillage hexaédrique de modèle CAO}
 \begin{frame}
     \frametitle{Table des matières}
