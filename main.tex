@@ -476,6 +476,99 @@
     \end{center}
 \end{frame}
 
+\begin{frame}{Boundary Lines in Different Scenarios}
+
+    \begin{center}
+    \begin{tabular}{c|c|c|c|c}
+        \begin{minipage}{0.1\textwidth}
+            \centering
+            10°\\
+            \vspace{0.2cm}
+            \begin{tikzpicture}[scale=0.2]
+            % Lines forming a 10° angle
+            \draw (0,0) -- (0,3);
+            \draw (0,0) -- ({3*sin(10)},{3*cos(10)});
+            \end{tikzpicture}
+        \end{minipage}
+    &
+        \begin{minipage}{0.18\textwidth}
+            \centering
+            90°\\
+            \vspace{0.2cm}
+            \begin{tikzpicture}[scale=0.2]
+                \only<2-2> {
+                \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
+                }
+            % Lines forming a 90° angle
+            \draw (0,0) -- (0,3);
+            \draw (0,0) -- (3,0);
+            \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
+            \end{tikzpicture}
+        \end{minipage}
+    &
+        \begin{minipage}{0.18\textwidth}
+            \centering
+            180°\\
+            \vspace{0.2cm}
+            \begin{tikzpicture}[scale=0.2]
+                \only<2-2> {
+                \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
+                \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
+                }
+            % Lines forming a 180° angle
+            \draw (0,0) -- (0,3);
+            \draw (0,0) -- (0,-3);
+            \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
+            \node[rotate=45, green, scale=2] at (1.5,-1.5) {$\times$}; % Added cross
+            \end{tikzpicture}
+        \end{minipage}
+    &
+        \begin{minipage}{0.18\textwidth}
+            \centering
+            270°\\
+            \vspace{0.2cm}
+            \begin{tikzpicture}[scale=0.2]
+            % Lines forming a 270° angle
+            \only<2-2> {
+                \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
+                \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
+                \draw[red] (-3.0,-3.0) rectangle (0.0,0.0); % Added quadrilateral
+                }
+            \draw (0,0) -- (0,3);
+            \draw (0,0) -- (-3,0);
+            \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
+            \node[rotate=45, green, scale=2] at (1.5,-1.5) {$\times$}; % Added cross
+            \node[rotate=45, green, scale=2] at (-1.5,-1.5) {$\times$}; % Added cross
+            \end{tikzpicture}
+        \end{minipage}
+    &
+        \begin{minipage}{0.18\textwidth}
+            \centering
+            350°\\
+            \vspace{0.2cm}
+            \begin{tikzpicture}[scale=0.2]
+            % Lines forming a 350° angle
+            \only<2-2> {
+                \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
+                \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
+                \draw[red] (-3.0,-3.0) rectangle (0.0,0.0); % Added quadrilateral
+                \draw[red] (-3.0,0.0) -- (0.0,0.0) -- ({3*sin(350)},{3*cos(350)}) -- ({3*sin(350)-3},{3*cos(350) - 0.3}) -- cycle; % Added parallelogram
+                }
+            \draw (0,0) -- (0,3);
+            \draw (0,0) -- ({3*sin(350)},{3*cos(350)});
+            \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
+            \node[rotate=45, green, scale=2] at (1.5,-1.5) {$\times$}; % Added cross
+            \node[rotate=50, green, scale=2] at (-1.5,-1.5) {$\times$}; % Added cross
+            \node[rotate=54, green, scale=2] at (-1.7,1.5) {$\times$}; % Added cross
+            \end{tikzpicture}
+        \end{minipage}
+    \end{tabular}
+    \end{center}
+    
+    \end{frame}
+
+    
+
 \begin{frame}{Triangles with a small angle}
 
     \begin{center}
