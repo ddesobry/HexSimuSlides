@@ -407,7 +407,7 @@
         \draw[->] (StartArc2) to[bend right=30] (Arriv2);
         \node[scale=0.8] at ($(Center2)!0.5!(StartArc2) + (0.,0.35)$) {$\theta_{t'}$};
          % Add omega
-        \node[red, scale=0.8] at ($(B)!0.3!(C)$) {$\omega_{tt'}$};
+        \node[blue, scale=0.8] at ($(B)!0.3!(C)$) {$\omega_{tt'}$};
     }
     
     \end{tikzpicture}
@@ -465,7 +465,101 @@
     \caption{Exemple de maillages quadrilatères surfaciques}
     \end{figure}
 \end{frame}
+
+\begin{frame}{Problèmes des bords à petits angles}
+
+    \begin{center}
+    \begin{tabular}{c|c|c|c|c}
+    % First row: angle text
+    $\alpha_v=10^{\circ}$ & $\alpha_v=90^{\circ}$ & $\alpha_v=180^{\circ}$ & $\alpha_v=270^{\circ}$ & $\alpha_v=350^{\circ}$ \\
+    \hline
+    % Second row: TikZ diagrams
+    \begin{minipage}{0.14\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.2]
+    % Lines forming a 10° angle
+    \draw (0,0) -- (0,3);
+    \draw (0,0) -- ({3*sin(10)},{3*cos(10)});
+    \node[rotate=40, green, scale=2] at (0.2,2) {$\times$}; % Added cross
+    \end{tikzpicture}
+    \end{minipage}
+    &
+    \begin{minipage}{0.14\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.2]
+    \only<2-4> {
+    \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
+    }
+    % Lines forming a 90° angle
+    \draw (0,0) -- (0,3);
+    \draw (0,0) -- (3,0);
+    \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
+    \end{tikzpicture}
+    \end{minipage}
+    &
+    \begin{minipage}{0.17\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.2]
+    \only<2-4> {
+    \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
+     \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
+    }
+    % Lines forming a 180° angle
+    \draw (0,0) -- (0,3);
+    \draw (0,0) -- (0,-3);
+    \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
+    \node[rotate=45, green, scale=2] at (1.5,-1.5) {$\times$}; % Added cross
+    \end{tikzpicture}
+    \end{minipage}
+    &
+    \begin{minipage}{0.17\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.2]
+    % Lines forming a 270° angle
+    \only<2-4> {
+     \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
+     \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
+     \draw[red] (-3.0,-3.0) rectangle (0.0,0.0); % Added quadrilateral
+    }
+    \draw (0,0) -- (0,3);
+    \draw (0,0) -- (-3,0);
+    \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
+    \node[rotate=45, green, scale=2] at (1.5,-1.5) {$\times$}; % Added cross
+    \node[rotate=45, green, scale=2] at (-1.5,-1.5) {$\times$}; % Added cross
+    \end{tikzpicture}
+    \end{minipage}
+    &
+    \begin{minipage}{0.17\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.2]
+    % Lines forming a 350° angle
+    \only<2-4> {
+     \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
+     \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
+     \draw[red] (-3.0,-3.0) rectangle (0.0,0.0); % Added quadrilateral
+     \draw[red] (-3.0,0.0) -- (0.0,0.0) -- ({3*sin(350)},{3*cos(350)}) -- ({3*sin(350)-3},{3*cos(350) - 0.3}) -- cycle; % Added parallelogram
+    }
+    \draw (0,0) -- (0,3);
+    \draw (0,0) -- ({3*sin(350)},{3*cos(350)});
+    \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
+    \node[rotate=45, green, scale=2] at (1.5,-1.5) {$\times$}; % Added cross
+    \node[rotate=50, green, scale=2] at (-1.5,-1.5) {$\times$}; % Added cross
+    \node[rotate=54, green, scale=2] at (-1.7,1.5) {$\times$}; % Added cross
+    \end{tikzpicture}
+    \end{minipage}
+    \end{tabular}
     
+    \only<3-4>{
+        \vspace{0.3cm}
+        Un champ de repère orthogonal produit un maillage quadrilatère de valence de bord: $$k_v = \text{arrondi} \left( \frac{\alpha_v}{90} \right)$$
+    }
+    \only<4-4>{
+        Problème: pour $\alpha_v < 45^\circ$, on obtient une valence $k_v = 0$ qui fait échouer la méthode. %le sommet de bord est donné de valence 0, ce qui fait échouer la méthode.
+    }
+    \end{center}
+    
+\end{frame}
+
 \begin{frame}{Problèmes avec les modèles CAO}
     \begin{center}
         \includegraphics[width=0.9\linewidth]{img/cadff/teaser2}
@@ -475,120 +569,38 @@
         }
     \end{center}
 \end{frame}
-
-\begin{frame}{Boundary Lines in Different Scenarios}
-
-    \begin{center}
-    \begin{tabular}{c|c|c|c|c}
-        \begin{minipage}{0.1\textwidth}
-            \centering
-            10°\\
-            \vspace{0.2cm}
-            \begin{tikzpicture}[scale=0.2]
-            % Lines forming a 10° angle
-            \draw (0,0) -- (0,3);
-            \draw (0,0) -- ({3*sin(10)},{3*cos(10)});
-            \end{tikzpicture}
-        \end{minipage}
-    &
-        \begin{minipage}{0.18\textwidth}
-            \centering
-            90°\\
-            \vspace{0.2cm}
-            \begin{tikzpicture}[scale=0.2]
-                \only<2-2> {
-                \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
-                }
-            % Lines forming a 90° angle
-            \draw (0,0) -- (0,3);
-            \draw (0,0) -- (3,0);
-            \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
-            \end{tikzpicture}
-        \end{minipage}
-    &
-        \begin{minipage}{0.18\textwidth}
-            \centering
-            180°\\
-            \vspace{0.2cm}
-            \begin{tikzpicture}[scale=0.2]
-                \only<2-2> {
-                \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
-                \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
-                }
-            % Lines forming a 180° angle
-            \draw (0,0) -- (0,3);
-            \draw (0,0) -- (0,-3);
-            \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
-            \node[rotate=45, green, scale=2] at (1.5,-1.5) {$\times$}; % Added cross
-            \end{tikzpicture}
-        \end{minipage}
-    &
-        \begin{minipage}{0.18\textwidth}
-            \centering
-            270°\\
-            \vspace{0.2cm}
-            \begin{tikzpicture}[scale=0.2]
-            % Lines forming a 270° angle
-            \only<2-2> {
-                \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
-                \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
-                \draw[red] (-3.0,-3.0) rectangle (0.0,0.0); % Added quadrilateral
-                }
-            \draw (0,0) -- (0,3);
-            \draw (0,0) -- (-3,0);
-            \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
-            \node[rotate=45, green, scale=2] at (1.5,-1.5) {$\times$}; % Added cross
-            \node[rotate=45, green, scale=2] at (-1.5,-1.5) {$\times$}; % Added cross
-            \end{tikzpicture}
-        \end{minipage}
-    &
-        \begin{minipage}{0.18\textwidth}
-            \centering
-            350°\\
-            \vspace{0.2cm}
-            \begin{tikzpicture}[scale=0.2]
-            % Lines forming a 350° angle
-            \only<2-2> {
-                \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
-                \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
-                \draw[red] (-3.0,-3.0) rectangle (0.0,0.0); % Added quadrilateral
-                \draw[red] (-3.0,0.0) -- (0.0,0.0) -- ({3*sin(350)},{3*cos(350)}) -- ({3*sin(350)-3},{3*cos(350) - 0.3}) -- cycle; % Added parallelogram
-                }
-            \draw (0,0) -- (0,3);
-            \draw (0,0) -- ({3*sin(350)},{3*cos(350)});
-            \node[rotate=45, green, scale=2] at (1.5,1.5) {$\times$}; % Added cross
-            \node[rotate=45, green, scale=2] at (1.5,-1.5) {$\times$}; % Added cross
-            \node[rotate=50, green, scale=2] at (-1.5,-1.5) {$\times$}; % Added cross
-            \node[rotate=54, green, scale=2] at (-1.7,1.5) {$\times$}; % Added cross
-            \end{tikzpicture}
-        \end{minipage}
-    \end{tabular}
-    \end{center}
-    
-    \end{frame}
-
     
 
-\begin{frame}{Triangles with a small angle}
+\begin{frame}{Modification de la définition du transport parallèle pour empêcher les petits angles}
 
     \begin{center}
     \begin{tikzpicture}[scale=1]
     % Triangle 1
     \draw[fill=blue!20] (0,0) -- (8,0) -- (8,1) -- cycle;
-    \coordinate (Center1) at ($ (0,0) !.7! (8,0.5) $);
+    
     % Triangle 2
     \draw[fill=red!20] (0,0) -- (8,0) -- (8,-1) -- cycle;
-    \coordinate (Center2) at ($ (0,0) !.7! (8,-0.5) $);
     
-    % Draw the green crosses
-    \begin{scope}[overlay]
-        \node at (Center1) [rotate=-30, green, scale=2] {$\times$};
-        \node at (Center2) [rotate=-10, green, scale=2] {$\times$};
-    \end{scope}
+    % Angle arc for α_v
+    %\draw[->] (1,-0.15) arc (0:15:1);  % Arc now goes in counterclockwise direction
+    
+    \only<1>{
+        \node at ($ (2,0) $) {$\alpha_v = 15^{\circ}$}; % Shifted to the right
+        \draw[->, blue] ($ (8,0) + (0,-0.5) $) to [bend left=45] ($ (8,0) + (0,0.5) $); % Flèche going from bottom to top
+        \node[blue] at ($ (8,0) + (1,0) $) {$\omega = 0^{\circ}$};
+    }
+    \only<2>{
+        \node at ($ (2,0) $) {$\alpha_v = 90^{\circ}$}; % Shifted to the right
+        \draw[->, blue] ($ (8,0) + (0,-0.5) $) to [bend left=45] ($ (8,0) + (0,0.5) $); % Flèche going from bottom to top
+        \node[blue] at ($ (8,0) + (1,0) $) {$\ \ \omega + \gamma = 75^{\circ}$};
+    }
+    
     \end{tikzpicture}
     \end{center}
     
 \end{frame}
+    
+    
 \begin{frame}{Diffusion of $\gamma$}
     
     \begin{figure}
@@ -617,6 +629,39 @@
     
 \end{frame}
     
+\begin{frame}{Comment calculer $\gamma$}
+
+    Au lieu de rendre singulier le sommet le plus proche, il peut être préférable de déplacer le sommet singulier plus loin.
+    
+    Pour y parvenir, nous proposons une méthode d'optimisation en deux étapes pour déterminer $\gamma$ :
+    \begin{itemize}
+        \item Calcul de $K(v)$ pour chaque sommet $v$, avec l'objectif de minimiser $\sum_v K(v)^2$ tout en s'assurant que $\sum_v K(v)=0$. Pour les sommets de coin pointus $v$, $K(v) = \pi/2 - \theta_v$.
+        \item Minimisation de $\argmin \sum_{tt'}|\gamma_{tt'}|^2$ sous la contrainte $\mathrm{d}\gamma(v) = K(v)$. L'existence d'une solution est garantie par la contrainte $\sum_v K(v)=0$.
+    \end{itemize}
+    
+    Cela permet de propager la modification du transport parallèle plus loin que seulement sur les arêtes adjacentes au sommet problématique $v$.
+    
+\end{frame}
+
+\begin{frame}{Optimisation et calcul des correspondances}
+
+    
+    \[\small
+    \text{Optimisation: } \underset{X, Y}{\argmin} \sum_{t \in T}\sum_{t' \in \mathcal{N}(t)} ||\begin{pmatrix} X_{t'}\\ Y_{t'}\end{pmatrix} - R_{tt'}\begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} ||^2
+    \]
+    
+    \[\small
+    \text{Contrainte: } \forall t \in T_b, \begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} = \begin{pmatrix} \cos4\eta_t\\ \sin4\eta_t\end{pmatrix}
+    \]
+    
+    \[\small
+    \text{Correspondance: } p_{tt'} = round\left(\frac{\theta_{t'} - \theta_t - \omega_{tt'} - \gamma_{tt'}}{\pi/2}\right)
+    \]
+    
+    Où $R_{tt'}$ est la matrice de rotation définie par $\omega_{tt'} + \gamma_{tt'}$.
+    
+\end{frame}
+
 \subsection{Champ 3D pour maillage hexaédrique de modèle CAO}
 \begin{frame}
     \frametitle{Table des matières}
