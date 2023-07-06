@@ -69,6 +69,18 @@
 \frame{\titlepage}
 
 \begin{frame}
+    TODOLIST:\\
+    ( ) Faire Intro Simus en 5 min.\\
+    ( ) Faire Intro Méthode quadcover/cubecover en 5 min.\\
+    ( ) Faire CADFF en 7 min.\\
+    ( ) Faire 3DFF en 7 min.\\
+    ( ) Faire SPMFF en 6 min.\\
+    ( ) Faire Quantiz en 5 min.\\
+    ( ) Faire QuadcoverSimus en 5 min.\\
+    ( ) Faire Conclusion en 5 min.\\
+\end{frame}
+
+\begin{frame}
     \frametitle{Table des matières}
     \tableofcontents[currentsection, sectionstyle=show/show, subsectionstyle=show/hide/hide]
 \end{frame}
@@ -575,8 +587,7 @@
         \includegraphics[width=0.9\linewidth]{img/new_images/flat_tri_annot.png}
         \includegraphics[width=0.9\linewidth]{img/new_images/surface_tri_annot.png}
         \small{
-            \textit{Produire un champ de repère qui a une rotation minimale sur un modèle CAO ne suffit pas toujours pour obtenir un maillage quad de qualité (haut). 
-            Notre algorithme permet de gérer les cas où il y a des configurations d'arêtes caractéristiques formant des petits angles (bas).}
+            \textit{Modifier la définition du transport parallèle permet de transformer les petits angles en angles de 90°.}
         }
     \end{center}
 \end{frame}
@@ -655,20 +666,19 @@
 
 \begin{frame}{Optimisation et calcul des correspondances}
 
-    
-    \[\small
-    \text{Optimisation: } \underset{X, Y}{\argmin} \sum_{t \in T}\sum_{t' \in \mathcal{N}(t)} ||\begin{pmatrix} X_{t'}\\ Y_{t'}\end{pmatrix} - R_{tt'}\begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} ||^2
-    \]
-    
-    \[\small
-    \text{Contrainte: } \forall t \in T_b, \begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} = \begin{pmatrix} \cos4\eta_t\\ \sin4\eta_t\end{pmatrix}
-    \]
+    \scriptsize
+    \begin{equation}
+        \begin{array}{ll}
+        \underset{X, Y}{\argmin} & \underset{t \in T}{\displaystyle\sum} \underset{t' \in \mathcal{N}(t)}{\displaystyle\sum} \left|\left|\ \begin{pmatrix} X_{t'}\\ Y_{t'}\end{pmatrix} - \begin{pmatrix}\cos4(\omega_{tt'} + \gamma_{tt'}) & -\sin4(\omega_{tt'} + \gamma_{tt'}) \\ \sin4(\omega_{tt'} + \gamma_{tt'}) & \cos4(\omega_{tt'} + \gamma_{tt'}) \end{pmatrix} \begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} \right|\right|^2, \\
+        \text{sous : } & \forall t \in T_b, \begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} = \begin{pmatrix} \cos4\eta_t\\ \sin4\eta_t\end{pmatrix}.
+        \end{array}
+        \label{eq:cadff_ff_2D_surface_optim}
+    \end{equation}
     
     \[\small
     \text{Correspondance: } p_{tt'} = round\left(\frac{\theta_{t'} - \theta_t - \omega_{tt'} - \gamma_{tt'}}{\pi/2}\right)
     \]
     
-    Où $R_{tt'}$ est la matrice de rotation définie par $\omega_{tt'} + \gamma_{tt'}$.
     
 \end{frame}
 
@@ -676,6 +686,58 @@
 \begin{frame}
     \frametitle{Table des matières}
     \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+
+\begin{frame}{Gestion des petits angles dans le cas 3D}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/hexmeshing_ff/tremplin_solved_2.PNG}
+    \end{figure}
+    
+    Les champs de repère orthogonaux échouent lorsque l'angle de la pente est trop faible, donnant des résultats dégénérés (à gauche). En utilisant notre méthode, nous obtenons des contraintes de direction qui séparent correctement la pente et son support (à droite).
+    
+\end{frame}
+
+\begin{frame}{Intuition de la méthode}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/hexmeshing_ff/normal_alignment_with_hexes_2.PNG}
+    \end{figure}
+    
+    Un champ de repère orthogonal aligné avec les normales de surface peut créer une arête de valence 0 dans le cas d'une arête à petit angle (en haut à gauche), qui ne peut pas être maillée. En recalculant les contraintes de direction, nous obtenons une arête de valence 1 qui peut être maillée (en haut à droite).
+    
+\end{frame}
+
+\begin{frame}{Calcul des angles dièdres et des valences géométriques}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{img/hexmeshing_ff/phi_angles.PNG}
+    \end{figure}
+    
+    \only<1-1>{
+    L'angle dièdre $\varphi_{tt'}$ et la valence géométrique d'arête $k_{tt'}$ sont déterminés en utilisant les normales de faces $n_t$ et $n_{t'}$ adjacentes à l'arête de bord.
+    }
+    \only<2-2>{
+        \begin{align*}
+            \varphi(n_t, n_{t'}) &= \pi - \mathrm{atan2} \left( \langle n_t \times n_{t'}, \frac{e_{tt'}}{\left|e_{tt'}\right|} \rangle, \langle n_t , n_{t'} \rangle \right)\\
+            k_{tt'} &= \text{arrondi}( \frac{\varphi_{tt'}}{\pi/2} )
+        \end{align*}
+    }
+\end{frame}
+
+\begin{frame}{Valences prescrites dans des modèles CAO}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{img/hexmeshing_ff/prescribed_valences.PNG}
+    \end{figure}
+    
+    \small
+    Dans le cas de non-orthogonalité extrême dans des modèles CAO, il est difficile de déterminer géométriquement les valences des arêtes caractéristiques. Pour obtenir ces résultats, nous avons prescrit les valences des arêtes caractéristiques dans les descriptions CAO des modèles en entrée.
+    
 \end{frame}
 \subsection{Champ de repère non-orthogonal}
 \begin{frame}
