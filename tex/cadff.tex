@@ -1,3 +1,5 @@
+
+
 \begin{frame}{Repère orthogonal 2D}
     \small
     Un repère orthogonal 2D est une croix orientée par un angle $\theta$.
@@ -9,8 +11,8 @@
             \draw[->, red] (.8, 0) arc (0:40:.8) node[right,pos=.66] {$\theta_1$};
             \draw[->] (180:1.2) -- (0:1.2);
             \draw[->] (-90:1.2) -- (90:1.2);
-            \draw[->, green] (220:1.2) -- (40:1.2);
-            \draw[->, green] (310:1.2) -- (130:1.2);
+            \draw[green] (220:1.2) -- (40:1.2);
+            \draw[green] (310:1.2) -- (130:1.2);
         \end{tikzpicture}
     \end{minipage}
     \hfill
@@ -20,8 +22,8 @@
             \draw[->, red] (.8, 0) arc (0:130:.8) node[right,pos=.2] {$\theta_2$};
             \draw[->] (180:1.2) -- (0:1.2);
             \draw[->] (-90:1.2) -- (90:1.2);
-            \draw[->, green] (220:1.2) -- (40:1.2);
-            \draw[->, green] (310:1.2) -- (130:1.2);
+            \draw[green] (220:1.2) -- (40:1.2);
+            \draw[green] (310:1.2) -- (130:1.2);
         \end{tikzpicture}
     \end{minipage}
     
@@ -37,7 +39,7 @@
             \draw[->, red] (.8, 0) arc (0:160:.8) node[right,pos=.3] {$4\theta_1$};
             \draw[->] (180:1.2) -- (0:1.2);
             \draw[->] (-90:1.2) -- (90:1.2);
-            \draw[->, blue] (340:1.2) -- (160:1.2) node[right,pos=1.4] {$(X_1, Y_1)$};
+            \draw[->, blue] (340:0) -- (160:1.2) node[right,pos=1.4] {$(X_1, Y_1)$};
         \end{tikzpicture}
     \end{minipage}
     \hfill
@@ -47,10 +49,11 @@
             \draw[->, red] (.8, 0) arc (0:520:.8) node[right,pos=.1] {$4\theta_2$};
             \draw[->] (180:1.2) -- (0:1.2);
             \draw[->] (-90:1.2) -- (90:1.2);
-            \draw[->, blue] (340:1.2) -- (160:1.2) node[right,pos=1.4] {$(X_2, Y_2)$};
+            \draw[->, blue] (340:0) -- (160:1.2) node[right,pos=1.4] {$(X_2, Y_2)$};
         \end{tikzpicture}
     \end{minipage}
 \end{frame}
+\iffalse
 \begin{frame}{Champ de repère 2D plat}
     \centering
     \begin{tikzpicture}[very thick, scale=.6]
@@ -86,6 +89,7 @@
     \draw[] (2.3, 3.75) {}++ (155:.4) --+ (335:.8);
     \end{tikzpicture}
 \end{frame}
+\fi
 \begin{frame}{Champ de repère 2D plat}
     \small
     Pour optimiser un champ de repère 2D plat sans problème de périodicité, nous optimisons 
@@ -102,7 +106,7 @@
     $$ \forall t \in T,\ \  \theta_t = \frac{1}{4}\tan^{-1}\frac{Y_t}{X_t}$$
 
 \end{frame}
-
+\iffalse
 \begin{frame}{Comparaison de repères dans deux plans différents}
     \begin{center}
     \begin{tikzpicture}[scale=2, transform shape]
@@ -218,7 +222,6 @@
 
 \end{frame}
 
-\iffalse
 \begin{frame}{Champ de repère 2D surfacique}
     \small
     Dans le cas surfacique, nous voulons minimiser les rotations:
@@ -268,7 +271,7 @@
     \begin{minipage}{0.14\textwidth}
     \centering
     \begin{tikzpicture}[scale=0.2]
-    \only<2-4> {
+    \only<2-2> {
     \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
     }
     % Lines forming a 90° angle
@@ -281,7 +284,7 @@
     \begin{minipage}{0.17\textwidth}
     \centering
     \begin{tikzpicture}[scale=0.2]
-    \only<2-4> {
+    \only<2-2> {
     \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
      \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
     }
@@ -297,7 +300,7 @@
     \centering
     \begin{tikzpicture}[scale=0.2]
     % Lines forming a 270° angle
-    \only<2-4> {
+    \only<2-2> {
      \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
      \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
      \draw[red] (-3.0,-3.0) rectangle (0.0,0.0); % Added quadrilateral
@@ -314,7 +317,7 @@
     \centering
     \begin{tikzpicture}[scale=0.2]
     % Lines forming a 350° angle
-    \only<2-4> {
+    \only<2-2> {
      \draw[red] (0.0,0.0) rectangle (3.0,3.0); % Added quadrilateral
      \draw[red] (0.0,-3.0) rectangle (3.0,0.0); % Added quadrilateral
      \draw[red] (-3.0,-3.0) rectangle (0.0,0.0); % Added quadrilateral
@@ -330,11 +333,10 @@
     \end{minipage}
     \end{tabular}
     
-    \only<3-4>{
+    \only<2-2>{
         \vspace{0.3cm}
         Un champ de repère orthogonal produit un maillage quadrilatère de valence de bord: $$k_v = \text{arrondi} \left( \frac{\alpha_v}{90} \right)$$
-    }
-    \only<4-4>{
+    
         Problème: pour $\alpha_v < 45^\circ$, on obtient une valence $k_v = 0$ qui fait échouer la méthode. %le sommet de bord est donné de valence 0, ce qui fait échouer la méthode.
     }
     \end{center}
@@ -343,11 +345,7 @@
 
 \begin{frame}{Problèmes avec les modèles CAO}
     \begin{center}
-        \includegraphics[width=0.9\linewidth]{img/cadff/teaser2}
-        \small{
-            \textit{Produire un champ de repère qui a une rotation minimale sur un modèle CAO ne suffit pas toujours pour obtenir un maillage quad de qualité (haut). 
-            Notre algorithme permet de gérer les cas où il y a des configurations d'arêtes caractéristiques formant des petits angles (bas).}
-        }
+        \includegraphics[width=0.99\linewidth]{img/cadff/teaser2}
     \end{center}
 \end{frame}
     
@@ -360,93 +358,82 @@
         }
     \end{center}
 \end{frame}
-
 \begin{frame}{Modification de la définition du transport parallèle pour empêcher les petits angles}
 
     \begin{center}
     \begin{tikzpicture}[scale=1]
     % Triangle 1
-    \draw[fill=blue!20] (0,0) -- (8,0) -- (8,1) -- cycle;
+    \fill[blue!20] (0,0) -- (8,0) -- (8,1) -- cycle;
     
     % Triangle 2
-    \draw[fill=red!20] (0,0) -- (8,0) -- (8,-1) -- cycle;
+    \fill[red!20] (0,0) -- (8,0) -- (8,-1) -- cycle;
     
-    % Angle arc for α_v
-    %\draw[->] (1,-0.15) arc (0:15:1);  % Arc now goes in counterclockwise direction
+    \node at ($ (2,0) $) {$\alpha_v = 14^{\circ}$}; % Shifted to the right
+    \draw[->, blue] ($ (6,0) + (0,-0.2) $) to [bend right=45] ($ (6,0) + (0,0.2) $); % Flèche going from bottom to top
+    \node[blue] at ($ (6,0) + (1,0) $) {$\gamma = 0^{\circ}$};
+
+    \end{tikzpicture}
+
+    \vspace{.5cm} % Adjust this value to increase or decrease the space
+
+    \begin{tikzpicture}[scale=1]
+    % Triangle 1
+    \fill[blue!20] (0,0) -- (8,0) -- (8,1) -- cycle;
     
-    \only<1>{
-        \node at ($ (2,0) $) {$\alpha_v = 15^{\circ}$}; % Shifted to the right
-        \draw[->, blue] ($ (8,0) + (0,-0.5) $) to [bend left=45] ($ (8,0) + (0,0.5) $); % Flèche going from bottom to top
-        \node[blue] at ($ (8,0) + (1,0) $) {$\omega = 0^{\circ}$};
-    }
-    \only<2>{
-        \node at ($ (2,0) $) {$\alpha_v = 90^{\circ}$}; % Shifted to the right
-        \draw[->, blue] ($ (8,0) + (0,-0.5) $) to [bend left=45] ($ (8,0) + (0,0.5) $); % Flèche going from bottom to top
-        \node[blue] at ($ (8,0) + (1,0) $) {$\ \ \omega + \gamma = 75^{\circ}$};
-    }
+    % Triangle 2
+    \fill[red!20] (0,0) -- (8,0) -- (8,-1) -- cycle;
     
+    \node at ($ (2,0) $) {$\alpha_v + K_v = 90^{\circ}$}; % Shifted to the right
+    \draw[->, blue] ($ (6,0) + (0,-0.2) $) to [bend right=45] ($ (6,0) + (0,0.2) $); % Flèche going from bottom to top
+    \node[blue] at ($ (6,0) + (1,0) $) {$\gamma = 76^{\circ}$};
+
     \end{tikzpicture}
     \end{center}
     
 \end{frame}
-    
-    
+
 \begin{frame}{Diffusion of $\gamma$}
-    
+
+    \begin{minipage}{0.59\textwidth}
     \begin{figure}
-    \centering
-    \begin{subfigure}{.3\textwidth}
       \centering
-      \includegraphics[width=0.9\linewidth]{img/cadff/sharp0}
-      \caption{Champ le plus lisse}
-    \end{subfigure}%
-    \hspace{0.03\textwidth}
-    \begin{subfigure}{.3\textwidth}
-      \centering
-      \includegraphics[width=0.9\linewidth]{img/cadff/sharp1}
+      \only<1>{\includegraphics[width=0.79\linewidth]{img/cadff/sharp0}
+      \caption{Champ le plus lisse}}
+      \includegraphics[width=0.79\linewidth]{img/cadff/sharp1}
       \caption{Singularité sur le 1-voisinage}
-    \end{subfigure}
-    \hspace{0.03\textwidth}
-    \begin{subfigure}{.3\textwidth}
-      \centering
-      \includegraphics[width=0.9\linewidth]{img/cadff/sharp2}
-      \caption{Propagation globale de la courbure}
-    \end{subfigure}%
-    \caption{Sur un sommet de coin pointu, le champ le plus lisse produit des lignes de quads qui se concentrent au niveau du sommet (a). Une correction locale peut 
-    résoudre ce problème (b), mais la propagation de la courbure du champ est ce qui permet d'obtenir les lignes de quads les plus utilisables (c).}
-    \label{fig:cadff:sharp2}
+      \only<2>{\includegraphics[width=0.79\linewidth]{img/cadff/sharp2}
+      \caption{Propagation globale de la courbure}}
     \end{figure}
+    \end{minipage}%
+    \begin{minipage}{0.39\textwidth}
+        Pour tous les sommets de coin à petit angle \(v\):\\
+        On fixe \(K_v = 90 - \theta_v\).
+        \only<2>{Puis: \(\argmin \displaystyle\sum_{tt'}|\gamma_{tt'}|^2\)}
+        
+        \vspace{1em}
+        \begin{block}{Contraintes:}
+            \begin{itemize}
+                \item \(\displaystyle\sum_{v \in \mathcal{V}} K_v =0\) 
+                \item $ \forall v,\displaystyle\sum_{tt' \in \mathcal{N}(v)}\gamma_{tt'} = K_v$
+            \end{itemize}
+        \end{block}
+    \end{minipage}
     
 \end{frame}
-    
-\begin{frame}{Comment calculer $\gamma$}
 
-    Au lieu de rendre singulier le sommet le plus proche, il peut être préférable de déplacer le sommet singulier plus loin.
-    
-    Pour y parvenir, nous proposons une méthode d'optimisation en deux étapes pour déterminer $\gamma$ :
-    \begin{itemize}
-        \item Calcul de $K(v)$ pour chaque sommet $v$, avec l'objectif de minimiser $\sum_v K(v)^2$ tout en s'assurant que $\sum_v K(v)=0$. Pour les sommets de coin pointus $v$, $K(v) = \pi/2 - \theta_v$.
-        \item Minimisation de $\argmin \sum_{tt'}|\gamma_{tt'}|^2$ sous la contrainte $\mathrm{d}\gamma(v) = K(v)$. L'existence d'une solution est garantie par la contrainte $\sum_v K(v)=0$.
-    \end{itemize}
-    
-    Cela permet de propager la modification du transport parallèle plus loin que seulement sur les arêtes adjacentes au sommet problématique $v$.
-    
-\end{frame}
+\begin{frame}{Optimisation d'un champ adapté aux modèles CAO}
 
-\begin{frame}{Optimisation et calcul des correspondances}
-
-    \scriptsize
-    \begin{equation}
+    Pour chaque paire de triangles adjacents $(t, t')$, on calcule la matrice de rotation 
+    induite par $\gamma_{tt'}$:
+    $$R_{tt'} = \begin{pmatrix}\cos4\gamma_{tt'} & -\sin4\gamma_{tt'} \\ \sin4\gamma_{tt'} & \cos4\gamma_{tt'} \end{pmatrix}$$
+    Le problème d'optimisation devient alors :
+   
+    \begin{equation*}
         \begin{array}{ll}
-        \underset{X, Y}{\argmin} & \underset{t \in T}{\displaystyle\sum} \underset{t' \in \mathcal{N}(t)}{\displaystyle\sum} \left|\left|\ \begin{pmatrix} X_{t'}\\ Y_{t'}\end{pmatrix} - \begin{pmatrix}\cos4(\omega_{tt'} + \gamma_{tt'}) & -\sin4(\omega_{tt'} + \gamma_{tt'}) \\ \sin4(\omega_{tt'} + \gamma_{tt'}) & \cos4(\omega_{tt'} + \gamma_{tt'}) \end{pmatrix} \begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} \right|\right|^2, \\
-        \text{sous : } & \forall t \in T_b, \begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} = \begin{pmatrix} \cos4\eta_t\\ \sin4\eta_t\end{pmatrix}.
+        \underset{X, Y}{\argmin} & \underset{t \in T}{\displaystyle\sum} \underset{t' \in \mathcal{N}(t)}{\displaystyle\sum} \left|\left|\ \begin{pmatrix} X_{t'}\\ Y_{t'}\end{pmatrix} - R_{tt'} \begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} \right|\right|^2, \\
+        \text{sous contrainte: } & \forall t \in T_b, \begin{pmatrix} X_{t}\\ Y_{t}\end{pmatrix} = \begin{pmatrix} \cos4\eta_t\\ \sin4\eta_t\end{pmatrix}.
         \end{array}
         \label{eq:cadff_ff_2D_surface_optim}
-    \end{equation}
-    
-    \[\small
-    \text{Correspondance: } p_{tt'} = round\left(\frac{\theta_{t'} - \theta_t - \omega_{tt'} - \gamma_{tt'}}{\pi/2}\right)
-    \]
-    
+    \end{equation*}
     
 \end{frame}
