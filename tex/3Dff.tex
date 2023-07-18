@@ -2,10 +2,8 @@
 
     \begin{figure}
         \centering
-        \includegraphics[width=0.8\textwidth]{img/hexmeshing_ff/tremplin_solved_2.PNG}
+        \includegraphics[width=0.99\textwidth]{img/hexmeshing_ff/tremplin_solved_2.PNG}
     \end{figure}
-    
-    Les champs de repère orthogonaux échouent lorsque l'angle de la pente est trop faible, donnant des résultats dégénérés (à gauche). En utilisant notre méthode, nous obtenons des contraintes de direction qui séparent correctement la pente et son support (à droite).
     
 \end{frame}
 
@@ -13,10 +11,8 @@
 
     \begin{figure}
         \centering
-        \includegraphics[width=0.8\textwidth]{img/hexmeshing_ff/normal_alignment_with_hexes_2.PNG}
+        \includegraphics[width=0.99\textwidth]{img/hexmeshing_ff/normal_alignment_with_hexes_2.PNG}
     \end{figure}
-    
-    Un champ de repère orthogonal aligné avec les normales de surface peut créer une arête de valence 0 dans le cas d'une arête à petit angle (en haut à gauche), qui ne peut pas être maillée. En recalculant les contraintes de direction, nous obtenons une arête de valence 1 qui peut être maillée (en haut à droite).
     
 \end{frame}
 
@@ -27,25 +23,94 @@
         \includegraphics[width=0.8\textwidth]{img/hexmeshing_ff/phi_angles.PNG}
     \end{figure}
     
-    \only<1-1>{
-    L'angle dièdre $\varphi_{tt'}$ et la valence géométrique d'arête $k_{tt'}$ sont déterminés en utilisant les normales de faces $n_t$ et $n_{t'}$ adjacentes à l'arête de bord.
-    }
-    \only<2-2>{
-        \begin{align*}
-            \varphi(n_t, n_{t'}) &= \pi - \mathrm{atan2} \left( \langle n_t \times n_{t'}, \frac{e_{tt'}}{\left|e_{tt'}\right|} \rangle, \langle n_t , n_{t'} \rangle \right)\\
-            k_{tt'} &= \text{arrondi}( \frac{\varphi_{tt'}}{\pi/2} )
-        \end{align*}
-    }
+   
+    \begin{align*}
+        \varphi(n_t, n_{t'}) &= \pi - \mathrm{atan2} \left( \langle n_t \times n_{t'}, \frac{e_{tt'}}{\left|e_{tt'}\right|} \rangle, \langle n_t , n_{t'} \rangle \right)\\
+        k_{tt'} &= \text{arrondi}( \frac{\varphi_{tt'}}{\pi/2} )
+    \end{align*}
 \end{frame}
 
-\begin{frame}{Valences prescrites dans des modèles CAO}
+\begin{frame}{Optimisation des normales de bord}
+
+    \begin{align*}
+        \delta_t^d(v) &= \max_{t' \in \mathcal{N}(t)} \left| \varphi( v_t, v_{t'} ) - k_{tt'}\pi/2 \right|\\
+        \delta_t^n(v) &= \max_{t' \in \mathcal{N}(t)} \arccos\left( v_t^\top \bar{n}_{tt'}\right)\\
+        \mathcal{E}(v) &= \max_{t \in V_b} \max (\delta_t^d(v), \delta_t^n(v) )
+    \end{align*} 
+    L'objectif est de trouver le champ de vecteurs $v$ qui minimise $\mathcal{E}(v)$.
+    
+\end{frame}
+
+\begin{frame}{Recherche du vecteur $v_t$ minimisant $\mathcal{E}_t(v)$ }
 
     \begin{figure}
         \centering
-        \includegraphics[width=0.7\textwidth]{img/hexmeshing_ff/prescribed_valences.PNG}
+        \includegraphics[width=0.99\textwidth]{img/hexmeshing_ff/finding_directions_in_a_cube_2.PNG}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Algorithme glouton pour calculer le champ de vecteur de bord}
+
+    \begin{center}
+        \begin{minipage}{0.4\linewidth}
+        \end{minipage}
+        \begin{minipage}{0.59\linewidth}
+            \begin{algorithm}[H]
+                \small
+                \SetAlgoLined
+                \label{algo:iterative_constraints}
+                \SetKwProg{Fn}{Function}{:}{}
+                \Fn{IterativeOptimization(n)}{
+                $v \gets n$\\%initial normal vectors of boundary facets;
+                $Q \gets$ boundary facet indices;\\
+                \While{$Q$ is not empty}{
+                $i \gets Q$.pop\_front();\\
+                ${u} \gets$ MinFacetDirection($i$);\\
+                \If{$\mathcal{E}(u) < \mathcal{E}(v)$}{
+                ${v_t} \gets u_t$;\\
+                \ForAll{$t' \in \mathcal{N}(t)$}{
+                $Q$.push($j$);
+                }
+                }
+                }
+                \Return{$v$};
+                }
+
+            \end{algorithm}
+        \end{minipage}
+    \end{center}
+\end{frame}        
+
+
+
+
+\begin{frame}{Différentes stratégies pour déterminer $k_{tt'}$:\\ Empêcher la valeur $k_{tt'} = 0$}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{img/hexmeshing_ff/comparison_low_angle_edge_2.PNG}
+    \end{figure}
+\end{frame}
+
+\iffalse
+\begin{frame}{Différentes stratégies pour déterminer $k_{tt'}$:\\Angles diédraux ambigus}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\textwidth]{img/hexmeshing_ff/resultats_3.png}
+    \end{figure}
+\end{frame}
+\fi
+\begin{frame}{Différentes stratégies pour déterminer $k_{tt'}$:\\Valences prescrites dans des modèles CAO}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{img/hexmeshing_ff/prescribed_valences.PNG}
     \end{figure}
     
-    \small
-    Dans le cas de non-orthogonalité extrême dans des modèles CAO, il est difficile de déterminer géométriquement les valences des arêtes caractéristiques. Pour obtenir ces résultats, nous avons prescrit les valences des arêtes caractéristiques dans les descriptions CAO des modèles en entrée.
-    
+\end{frame}
+
+\begin{frame}{Maillage hexaédrique avec valence d'arête supérieure à 4}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.99\textwidth]{img/hexmeshing_ff/valence_5_edges.PNG}
+    \end{figure}
 \end{frame}

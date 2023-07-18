@@ -1,0 +1,10 @@
+# Two Triangles with a Shared Edge
+
+v 0.0 0.0 0.0
+v 8.0 0.0 10.0
+v 8.0 1.0 0.0
+v 8.0 -1.0 0.0
+
+f 1 2 3
+f 4 2 1
+

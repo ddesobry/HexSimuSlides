@@ -1,0 +1,11 @@
+\beamer@sectionintoc {1}{Maillage hexaédrique et simulation de déformation}{4}{0}{1}
+\beamer@subsectionintoc {1}{1}{Introduction aux simulations numériques de déformation}{5}{0}{1}
+\beamer@subsectionintoc {1}{2}{Maillage hexaédrique à partir d'un champ de repère}{17}{0}{1}
+\beamer@sectionintoc {2}{Contribution: Champ de repère pour générer un maillage CAO }{21}{0}{2}
+\beamer@subsectionintoc {2}{1}{Champ de repère non-orthogonal}{22}{0}{2}
+\beamer@subsectionintoc {2}{2}{Champ 2D pour maillage quadrilatère de modèle CAO}{35}{0}{2}
+\beamer@subsectionintoc {2}{3}{Champ 3D pour maillage hexaédrique de modèle CAO}{46}{0}{2}
+\beamer@sectionintoc {3}{Contribution: Quadcover pour des simulations de déformation 2D}{56}{0}{3}
+\beamer@subsectionintoc {3}{1}{Algorithme de quantification 2D rapide, robuste et open source}{57}{0}{3}
+\beamer@subsectionintoc {3}{2}{Génération de maillage adapté à des déformations avec Quadcover}{64}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{75}{0}{4}

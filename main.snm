@@ -1,0 +1,10 @@
+\beamer@slide {fig:invention_roue}{6}
+\beamer@slide {fig:simu_michelin}{7}
+\beamer@slide {eq:cadff_ff_2D_surface_optim}{45}
+\beamer@slide {algo:iterative_constraints}{52}
+\beamer@slide {fig:all_diff_maps}{58}
+\beamer@slide {algo:iterative_meshing_quadcover}{65}
+\beamer@slide {fig:asp_ratio_pb}{66}
+\beamer@slide {fig:asp_ratio_sol}{67}
+\beamer@slide {eq:quadcover_energy}{68}
+\beamer@slide {eq:positive_jacobien_2D}{68}
