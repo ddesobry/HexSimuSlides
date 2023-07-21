@@ -20,7 +20,7 @@
     \end{figure}
 \end{frame}
 
-
+\iffalse
 \begin{frame}{Simulation Numérique: Choix de la méthode}
 
     \begin{itemize}
@@ -32,6 +32,7 @@
     \end{itemize}
 
 \end{frame}
+
 
 \begin{frame}{Définition et propriétés fondamentales du maillage}
     \small{
@@ -49,6 +50,38 @@
         \textbf{Description CAO :} Représentation numérique d'un objet dans un espace 2D ou 3D utilisant des entités géométriques primitives.
     }
 \end{frame}
+
+\begin{frame}
+    \frametitle{Mesh Elements}
+    
+    \begin{table}[]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+    & \textbf{Input} & \textbf{Output} \\ \hline
+    \textbf{2D} & \includegraphics[width=0.2\textwidth]{img/new_images/triangle.png} & \includegraphics[width=0.2\textwidth]{img/new_images/quadrilatere.png} \\ \hline
+    \textbf{3D} & \includegraphics[width=0.2\textwidth]{img/new_images/tetrahedron.png} & \includegraphics[width=0.2\textwidth]{img/new_images/hexahedron.png} \\ \hline
+    \end{tabular}
+    \end{table}
+    
+\end{frame}
+\fi
+
+\begin{frame}
+    \frametitle{Mesh Elements}
+    
+    \begin{table}[]
+    \centering
+    \begin{tabular}{|M{1cm}|M{3cm}|M{3cm}|}
+    \hline
+    & \textbf{Input} & \textbf{Output} \\ [4ex] \hline
+    \textbf{2D} & \raisebox{-0.5\height}{\includegraphics[width=\linewidth]{img/new_images/triangle.png}} & \raisebox{-0.5\height}{\includegraphics[width=\linewidth]{img/new_images/quadrilatere.png}} \\ [4ex] \hline
+    \textbf{3D} & \raisebox{-0.5\height}{\includegraphics[width=\linewidth]{img/new_images/tetrahedron.png}} & \raisebox{-0.5\height}{\includegraphics[width=\linewidth]{img/new_images/hexahedron.png}} \\ [4ex] \hline
+    \end{tabular}
+    \end{table}
+    
+\end{frame}
+
 \begin{frame}{Un maillage conforme unique pour toute la simulation}
     \begin{columns}
     \column{0.5\textwidth}

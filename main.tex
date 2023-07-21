@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{adjustbox}
-
+\usepackage{array}
 \usepackage{algorithm2e}
 \usetikzlibrary{fadings}
 \usetikzlibrary{shadows}
@@ -15,7 +15,9 @@
 \definecolor{darkgreen}{rgb}{0,0.5,0}
 \definecolor{darkred}{rgb}{0.5,0,0}
 \DeclareMathOperator*{\argmin}{arg\,min}
-
+% New column type for centering content in a table cell
+% Define a new column type "C" that centers content both vertically and horizontally
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 
 \setbeamertemplate{footline}
 {
