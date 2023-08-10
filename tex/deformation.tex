@@ -49,7 +49,7 @@
     On calcule une carte sans couture $u$ la plus proche possible de $\mu$:
     \begin{equation*} \label{eq:quadcover_energy}
         \begin{array}{ll}
-            \underset{u}{\argmin} & \underset{t \in T}{\sum}\ \ \underset{i, j \in \mathcal{C}(t)}{\sum}  \left|\left| (u_i - u_j) - (\mu_i - \mu_j)  \right|\right|^2\\
+            \underset{u}{\argmin} & \underset{t \in T}{\sum}\ \ \only<3>{\textcolor{red}{\lambda_t}} \underset{i, j \in \mathcal{C}(t)}{\sum} \left|\left| (u_i - u_j) - (\mu_i - \mu_j)  \right|\right|^2\\
             \text{sous contrainte: } & \begin{pmatrix} u_{i'} - u_{j'} \end{pmatrix} = R_{tt'} \begin{pmatrix}  u_{i} - u_{j} \end{pmatrix}. \\
         \end{array}
     \end{equation*}
