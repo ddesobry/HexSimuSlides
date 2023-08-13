@@ -7,6 +7,13 @@
 \usepackage{array}
 \usepackage{algorithm2e}
 \usepackage{lmodern}
+\usepackage{caption}
+\renewcommand{\figurename}{}
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.2,0.5,0.8} % Ajustez les valeurs RGB pour obtenir la teinte désirée
+\newcommand{\blue}[1]{{\color{myblue}#1}}
+%\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\red}[1]{{\color{red}#1}}
 
 \usetikzlibrary{fadings}
 \usetikzlibrary{shadows}
@@ -156,4 +163,6 @@
 \end{frame}
 \input{tex/conclu}
 \fi
+
+
 \end{document}
