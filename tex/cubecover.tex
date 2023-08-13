@@ -1,20 +1,134 @@
-\begin{frame}{Lien entre champ de repère 2D et maillage quadrilatère}
-    \begin{center}
-        \includegraphics[width=\linewidth]{img/quadsimu/singus.PNG}
-        \small{
-            \textit{Les singularités d'un champ de repère sont utilisées pour déterminer la position des sommets de valence différente de 4 dans le maillage quadrilatère.}
-        }
-    \end{center}
+
+\begin{frame}{Approche générale de la méthode en 2D}
+    \centering
+    \textbf{Paramétrisation globale}
+    
+    %\vspace{1em}
+    
+    \begin{figure}
+        \includegraphics[width=1.\linewidth]{img/new_images/gp_arrow_ex.png}
+    \end{figure}
+
+    \begin{itemize}
+        \item Paramétrisation $f$ d'un domaine 2D vers une grille régulière.
+        \item $f^{-1}$ permet de déposer la grille sur le domaine initial.
+    \end{itemize}
 \end{frame}
-\begin{frame}{Quadcover pour générer un maillage quadrilatère}
-    \begin{center}
-        \includegraphics[width=\linewidth]{img/cubecover/pipeline.PNG}
-        \small{
-            \textit{Les différentes étapes de la méthode Quadcover pour construire un maillage quadrilatère.}
-        }
-    \end{center}
+
+\begin{frame}{Méthode Quadcover pour calculer un maillage quadrilatère}
+    \begin{columns}[c] % align columns
+        
+        \begin{column}{.7\textwidth}
+            \textbf{Méthode utilisant un champ de repère}
+            \vspace{1em}
+            \begin{enumerate}
+                \item Calcul champ de repère
+                \begin{itemize}
+                    \item Oriente les quadrilatères
+                    \item Positionne les singularités
+                \end{itemize}
+                \vspace{.5em}
+                \item Algorithme Quadcover
+                \begin{itemize}
+                    \item Calcule une paramétrisation globale
+                    \item Extrait un maillage quadrilatère
+                \end{itemize}
+            \end{enumerate}
+        \end{column}%
+        
+        \begin{column}{.3\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=1.8\linewidth, angle=-90]{img/quadsimu/singus.PNG}
+            \end{figure}
+        \end{column}
+        
+    \end{columns}
 \end{frame}
-\begin{frame}{Les différents types de carte $U : \mathbb{R}^2 \mapsto \mathbb{R}^2$}
+
+\begin{frame}{Calcul d'un champ de repère~[\cite{hertzmann_illustrating_2000}]}
+    \begin{itemize}
+        \item \textbf{Entrée :} Maillage triangulaire du domaine 2D
+        \item \textbf{Initialisation} : Fixe les croix du bord selon les normales
+        \item \textbf{Optimisation} : Interpole des croix à l’intérieur du modèle
+    \end{itemize}
+    
+    \vspace{1em}
+    \centering
+    \includegraphics[width=\linewidth]{img/new_images/compute_ff2D.png}
+\end{frame}
+
+\begin{frame}{Extraction de deux champs de vecteurs \blue{$\vec{a}$} et \red{$\vec{b}$}}
+    \centering
+	\begin{itemize}
+        \item On détermine les singularités (sommets autour desquels la somme des rotations des repères est non nulle)
+        \item L'extraction de \blue{$\vec{a}$} et \red{$\vec{b}$} crée une découpe (ou discontinuité) provoquée par la singularité
+    \end{itemize}
+    \includegraphics[width=\linewidth]{img/new_images/ff_to_vf.png}
+\end{frame}
+
+\begin{frame}{Algorithme Quadcover~[\cite{kalberer_quadcover_2007}]}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Intégration de \blue{$\vec{a}$} et \red{$\vec{b}$} en champs scalaires \blue{u} et \red{v} }
+            \begin{itemize}
+                \item Calcul de \blue{u} qui minimise \[\int{ |\nabla{\blue{u}} - \blue{\vec{a}}|^2 }\]
+                \item Calcul de \red{v} qui minimise \[\int{ |\nabla{\red{v}} - \red{\vec{b}}|^2 }\]
+                \item De part et d'autre de la découpe (\blue{u}, \red{v}) est contraint à une rotation de $\pm 90^\circ$ 
+            \end{itemize}
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{img/new_images/vf_to_sf.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Algorithme Quadcover~[\cite{kalberer_quadcover_2007}]}
+    \centering
+    \begin{itemize}
+        \item On obtient une paramétrisation du domaine \[f(x,y) = (\blue{u(x,y)}, \red{v(x,y)})\]
+    \end{itemize}
+    
+    \includegraphics[width=\linewidth]{img/new_images/u_v_forme_f.png}
+    \vspace{-1em}
+    \begin{itemize}
+        \item Problème : Les lignes de la grille par $f^{-1}$ se situent sur les lignes entières de $\blue{u}$ et $\red{v}$
+        qui ne sont pas alignés avec le bord.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Quantification de \blue{u} et \red{v}~[\cite{bommes_integer-grid_2013}]}
+    \begin{itemize}
+        \item Chaque bord devient une valeur entière pour $\blue{u}$ ou $\red{v}$
+        \item Chaque découpe devient une translation entière pour $\blue{u}$ et $\red{v}$
+        \item Chaque singularité est une valeur entière pour $\blue{u}$ et pour $\red{v}$
+		\item La paramétrisation $f = (\blue{u}, \red{v})$ doit rester bijective
+    \end{itemize}
+    
+    \vspace{1em} % Espacement, à ajuster selon vos besoins
+    \centering
+    \includegraphics[width=\linewidth]{img/new_images/uv_quantizee.png}
+\end{frame}
+
+%\begin{frame}{Quadcover pour générer un maillage quadrilatère}
+%    \begin{center}
+%        \includegraphics[width=\linewidth]{img/cubecover/pipeline.PNG}
+%        \small{
+%            \textit{Les différentes étapes de la méthode Quadcover pour construire un maillage quadrilatère.}
+%        }
+%    \end{center}
+%\end{frame}
+
+\begin{frame}{Les différentes variables du problèmes}
+    \begin{itemize}
+        \item \green{$\alpha \in \{0,\ 90,\ 180,\ 270\}$} : la rotation à travers chaque découpe
+        \item \purple{$k \in \mathbb{N}$} : la translation entière à travers chaque découpe
+        \item $f = (\blue{u}, \red{v})$ : la paramétrisation globale
+    \end{itemize}
 	\centering
 	\begin{tikzpicture}[scale=1.38]
 		\begin{scope}
@@ -41,9 +155,8 @@
 			\draw[ultra thick, green] (.9, 0) -- (.9, 1.55);
 			\draw[thick] (-.35, 0) -- (1.95, 0) -- (1.95, 1.55) -- (-.35, 1.55) -- cycle;
 		\end{scope}
-		\node at (.8, -0.5) {$U_i = R_{\theta} U_j + \lambda_{ij}$};
-		\node at (.8, -1.) {$p_{ij} = arrondi(\theta/90)$};
-		\node at (.8, 2.2) {Champ de repère};
+		\node at (.8, 1.8) {Champ de repère};
+		\node at (.8, -0.5) {$f_i = R_{\theta} f_j + \lambda_{ij}$};
 		\begin{scope}[xshift=2.7cm]
 			\draw[thick] (-.35, 0) -- (1.95, 0) -- (1.95, 1.55) -- (-.35, 1.55) -- cycle;
 			\clip (-.35, 0) -- (1.95, 0) -- (1.95, 1.55) -- (-.35, 1.55) -- cycle;
@@ -70,9 +183,10 @@
 			\draw[ultra thick, green] (.9, 0) -- (.9, 1.55);
 			\draw[thick] (-.35, 0) -- (1.95, 0) -- (1.95, 1.55) -- (-.35, 1.55) -- cycle;
 		\end{scope}
-		\node at (3.5, -0.5) {$U_i = R_{90 \cdot p_{ij}} U_j + \lambda_{ij}$};
-		\node at (3.5, -1.) {$k_{ij} = arrondi(\lambda_{ij})$};
-		\node at (3.5, 2.2) {Intégration};
+		\node at (3.5, 1.8) {Intégration};
+		\node at (3.5, -0.5) {\green{$\alpha = arrondi(\theta)$}};
+		\node at (3.5, -.9) {$f_i = R_{\green{\alpha}} f_j + \lambda$};
+		
 		\begin{scope}[xshift=5.4cm]
 			\draw[thick] (-.35, 0) -- (1.95, 0) -- (1.95, 1.55) -- (-.35, 1.55) -- cycle;
 			\clip (-.35, 0) -- (1.95, 0) -- (1.95, 1.55) -- (-.35, 1.55) -- cycle;
@@ -96,20 +210,27 @@
 			\draw[ultra thick, green] (.9, 0) -- (.9, 1.55);
 			\draw[thick] (-.35, 0) -- (1.95, 0) -- (1.95, 1.55) -- (-.35, 1.55) -- cycle;
 		\end{scope}
-		\node at (6.2, -0.5) {$U_i = R_{90 \cdot p_{ij}} U_j + k_{ij}$};
-		\node at (6.2, 2.2) {Quantification};
+		\node at (6.2, 1.8) {Quantification};
+		\node at (6.2, -.5) {\purple{$k = arrondi(\lambda)$}};
+		\node at (6.2, -0.9) {$f_i = R_{\green{\alpha}} f_j + \purple{k}$};
 	
 	\end{tikzpicture}
-	
-	%\caption{Classification des cartes en fonction de leur comportement à travers une discontinuité (en vert) : carte arbitraire (à gauche), carte sans couture (au milieu) et carte préservant la grille (à droite).}
-	%\label{fig:all_diff_maps}
 \end{frame}
 
 \begin{frame}{En 3D: Cubecover pour générer un maillage hexaédrique}
     \begin{center}
+		\begin{itemize}
+			\item Champ de repère 3D [\cite{huang_boundary_2011}]
+			\item Intégration avec Cubecover [\cite{nieser_cubecover_2011}]
+			\item Quantification 3D [\cite{bruckler_volume_2022}]
+		\end{itemize}
+		\vspace{1em}
         \includegraphics[width=\linewidth]{img/cubecover/B34_graphe_interieur.PNG}
-        \small{
-            \textit{Cubecover utilise le graphe de singularité d'un champ de repère 3D pour construire un maillage hexaédrique partageant le même graphe de singularité.}
-        }
+		%\begin{itemize}
+		%	\item Un graphe de singularité 3D est un ensemble d'arête du maillage tétraédrique en entrée.
+		%\end{itemize}
+        %\small{
+        %    \textit{Cubecover utilise le graphe de singularité d'un champ de repère 3D pour construire un maillage hexaédrique partageant le même graphe de singularité.}
+        %}
     \end{center}
 \end{frame}

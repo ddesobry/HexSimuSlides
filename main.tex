@@ -11,9 +11,22 @@
 \renewcommand{\figurename}{}
 \usepackage{xcolor}
 \definecolor{myblue}{rgb}{0.2,0.5,0.8} % Ajustez les valeurs RGB pour obtenir la teinte désirée
+\definecolor{mygreen}{RGB}{34,139,34} % Un vert pour alpha
+\definecolor{mypurple}{RGB}{148,0,211} % Un violet pour k
+\definecolor{myorange}{RGB}{255,165,0} % Un orange pour f
 \newcommand{\blue}[1]{{\color{myblue}#1}}
 %\newcommand{\blue}[1]{{\color{blue}#1}}
 \newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\green}[1]{{\color{mygreen}#1}}
+\newcommand{\purple}[1]{{\color{mypurple}#1}}
+\newcommand{\orange}[1]{{\color{myorange}#1}}
+\usepackage[
+  backend=bibtex,
+  style=authoryear,
+  maxcitenames=1, 
+  maxbibnames=999
+]{biblatex}
+\addbibresource{mybibfile.bib}
 
 \usetikzlibrary{fadings}
 \usetikzlibrary{shadows}
@@ -102,7 +115,6 @@
 \end{frame}
 \input{tex/introsimu.tex}
 
-\iffalse
 \subsection{Maillage hexaédrique à partir d'un champ de repère}
 \begin{frame}
     \frametitle{Plan de la présentation}
@@ -116,12 +128,19 @@
     \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
 \end{frame}
 
-\subsection{Champ de repère non-orthogonal}
+\subsection{Champ de repère 2D non-orthogonal}
 \begin{frame}
     \frametitle{Plan de la présentation}
     \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
 \end{frame}
-\input{tex/spmff}
+\input{tex/spmff2D}
+
+\subsection{Champ de repère 3D non-orthogonal}
+\begin{frame}
+    \frametitle{Plan de la présentation}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+\input{tex/spmff3D}
 
 %\subsection{Champ 2D pour maillage quadrilatère de modèle CAO}
 %\begin{frame}
@@ -162,7 +181,6 @@
     \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
 \end{frame}
 \input{tex/conclu}
-\fi
 
-
+%\printbibliography
 \end{document}
