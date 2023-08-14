@@ -1,25 +1,75 @@
-\begin{frame}
-    \frametitle{Accomplissements de la thèse}
-    \begin{itemize}
-    \item 2D et 3D: Gain de contrôle sur les maillages produits grâce à l'utilisation de nouvelles méthodes de champ de repère.
-    \item 2D: Méthode rapide (< 1 min) de génération de maillage quadrilatère de qualité sur des modèles industriels.
-    \item 2D: Maillage quadrilatère adapté à plusieurs géométries de simulations de grandes déformations.
-    \end{itemize}
+\begin{frame}{Travail réalisé : Maillage quadrilatère 2D}
+    \begin{enumerate}
+        \item Une seule géométrie en entrée:
+        \begin{itemize}
+            \item Champ de repère adapté à des modèles CAO.
+            \item Correction des problèmes de non-intégrabilité.
+            \item Quantification sans recalcul de paramétrisation.
+            \item Implémentation web (ThreeJS + WebAssembly) : \url{ddesobry.github.io/quadmesher.html}
+            \item 100\% de réussite sur la b.d.d Mambo [\cite{ledoux_mambo_2019}] 
+        \end{itemize}
+        \pause
+        \item Plusieurs géométries en entrée:
+        \begin{itemize}
+            \item Valences de bord adaptées aux géométries.
+            \item Intégration sur toutes les géométries.
+            \item Alternance automatisée entre simulation et maillage. 
+            \item 3/5 simulations industrielles réalisées automatiquement. 
+        \end{itemize}
+    \end{enumerate}
 \end{frame}
     
-\begin{frame}
-    \frametitle{Perspectives: Champ de repère intégrable et Réseau de singularité valide}
+\iffalse
+\begin{frame}{Travail réalisé : Maillage hexaédrique 3D}
+    \begin{enumerate}
+        \item Réparation incrémentale des graphes de singularité
+        \item Champ de repère avec singularités de bord imposés.
+    \end{enumerate}
+
     \begin{itemize}
-    \item Étudier les champs de direction \textit{intégrables} pour garantir l'existence d'une paramétrisation globale \textit{bijective}.
-    \item Déterminer automatiquement des valences sur le bord pour un maillage hexaédrique et calculer un graphe de singularité intérieur valide.
+        \item "[\cite{ledoux_mambo_2019}]" / \cite{ray_practical_2016} / \cite{ray_practical_2016} + (1) / \cite{ray_practical_2016} + (2)
+        \item "Basique" (74 modèles) / 18\% / 40\% / 69\%
+        \item "Simple" (29 modèles) / 0\% / 21\% / 34\%
+        \item "Medium" (9 modèles) / 0\% / 0\% / 0\%
     \end{itemize}
 \end{frame}
-    
-\begin{frame}
-    \frametitle{Perspectives: Arêtes caractéristiques et Quantification 3D}
+\fi
+
+\begin{frame}{Travail réalisé : Maillage hexaédrique 3D}
+    \centering
+    \begin{enumerate}
+        \item Réparation de graphe de singularité de champ de repère \label{enum:reparation}
+        \item Champ de repère avec singularités de bord imposés. \label{enum:champ}
+    \end{enumerate}
+    %L'algorithme de calcul de champ de repère est \cite{ray_practical_2016}
+    \begin{table}
+    \centering
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    Base de données & [\cite{ray_practical_2016}] & + (\ref{enum:reparation}) & + (\ref{enum:champ}) \\
+    \hline
+    Mambo-Basique & 18\% & 40\% & 69\% \\
+    \hline
+    Mambo-Simple & 0\% & 21\% & 34\% \\
+    \hline
+    Mambo-Medium & 0\% & 0\% & 0\% \\
+    \hline
+    \end{tabular}
+    \end{table}
+    \% de maillages réussis  en fonction de l'utilisation de (\ref{enum:reparation}) et (\ref{enum:champ})
+\end{frame}
+
+\begin{frame}{Perspectives}
+    \textbf{Maillage quadrilatère:}
     \begin{itemize}
-    \item Explorer l'alignement d'une carte avec les arêtes caractéristiques lors de l'étape de quantification.
-    \item Accélérer l'étape de quantification 3D en optimisant les positions des singularités dans la carte préservant la grille sur le maillage décimé 3D.
+        \item Correction champ de repère : Résoudre les problèmes de non-intégrabilité sans trop affecter la qualité.
+        \item Intégrabilité champ de repère : Optimiser le placement des singularités sans trop affecter les performances.
+    \end{itemize}
+    \pause
+    \textbf{Maillage hexaédrique:}
+    \begin{itemize}
+        \item Initialisation champ de repère : Méthode automatique pour déterminer des valences sur le bord valides.
+        \item Correction champ de repère : Méthode de correction robuste des graphes de singularités intérieurs [\cite{liu2023locally}].
+        \item Quantification rapide : Résoudre le problème de quantification par une méthode gloutonne comme en 2D.
     \end{itemize}
 \end{frame}
-    
