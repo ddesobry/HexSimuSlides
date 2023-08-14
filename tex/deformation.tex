@@ -1,3 +1,21 @@
+\begin{frame}{Adaptation d'un maillage quad à une simulation}
+    \begin{enumerate}
+        \item Générer un premier maillage quad \( Q_0 \)
+        \item Exécuter la simulation jusqu'à ce qu'elle échoue
+        \item Calculer les champs de repère pour toutes les géométries intermédiaires de la simulation
+        \item Calculer une paramétrisation
+        \item Quantification et maillage quad
+    \end{enumerate}
+    
+    % Ajouter une flèche en boucle
+    \begin{tikzpicture}[overlay]
+        \node (start) at (0.3, .65) {};  % Position de départ de la flèche
+        \node (end) at (0.3, 2.9) {};    % Position d'arrivée de la flèche
+        \draw[->, thick] (start) to[bend left=80] (end);
+    \end{tikzpicture}
+\end{frame}
+
+\iffalse
 \begin{frame}{Algorithm - Alternance maillage et simulation}
     \small
     \begin{algorithm}[H]
@@ -20,28 +38,65 @@
         }
     \end{algorithm}
 \end{frame}
+
 \begin{frame}{Déterminer des valences de bord adaptés à la déformation}
     \small
     \begin{figure}
         \centering
         \includegraphics[width=0.46\linewidth]{img/quadsimu/coin_pb_0.PNG}
         \includegraphics[width=0.27\linewidth]{img/quadsimu/coin_pb_1.PNG}
-        \caption{Les positions de singularités optimales pour une géométrie initiale peuvent conduire à des quadrilatères de qualité médiocre après une déformation.}
+        \caption{Les positions de singularités optimales pour une géométrie initiale peuvent conduire à des quadrilatères de mauvaise qualité après une déformation.}
         \label{fig:asp_ratio_pb}
     \end{figure}
 \end{frame}
-\begin{frame}{Déterminer des valences de bord adaptés à la déformation}
-    \small
+\fi
+\begin{frame}{Problème: Valences inadaptés à une déformation}
     \begin{figure}
         \centering
-        \includegraphics[width=0.39\linewidth]{img/quadsimu/coin_rs_0.PNG}
-        \includegraphics[width=0.35\linewidth]{img/quadsimu/coin_rs_1.PNG}
-        \caption{En utilisant toutes les géométries de l'itération précédente de la simulation échouée, 4 quadrilatères adjacents sont automatiquement placés au 
-        point de bord où la déformation est la plus prononcée.}
-        \label{fig:asp_ratio_sol}
+        \includegraphics[width=\linewidth]{img/new_images/echec_simu.PNG}
+        \caption{Les positions de singularités optimales pour une géométrie initiale peuvent conduire à des quadrilatères de mauvaise qualité après une déformation.}
     \end{figure}
 \end{frame}
+\begin{frame}{Déterminer des valences de bord adaptés à la déformation}
+    \begin{columns}[c] % Le paramètre 'c' centre verticalement le contenu
 
+        \column{0.5\textwidth}  % Largeur de la colonne de gauche
+        \includegraphics[width=\linewidth]{img/new_images/evolution_verrin.PNG}
+
+        \column{0.5\textwidth}  % Largeur de la colonne de droite
+        \only<1>{\includegraphics[width=\linewidth]{img/new_images/simu_debut_verrin.PNG}}
+        \only<2>{\includegraphics[width=\linewidth]{img/new_images/simu_milieu_verrin.PNG}}
+        \only<3>{\includegraphics[width=\linewidth]{img/new_images/simu_fin_verrin.PNG}}
+    \end{columns}
+\end{frame}
+\begin{frame}{Intégration à plusieurs géométries en entrée}
+    \centering
+    \only<1>{\textbf{Intégration de \blue{a} et \red{b} pour une géométrie}
+    $$\argmin_{\blue{u}, \red{v}} \sum_{t, h} 
+        \left\| \begin{pmatrix} \blue{u_{next(h)} - u_h} \\ \red{v_{next(h)} - v_h} \end{pmatrix}  - \begin{pmatrix} 
+            < \blue{a_t}, \green{g_{next(h)} - g_h} > \\ < \red{b_t}, \green{g_{next(h)} - g_h} >\end{pmatrix} \right\|^2 $$}
+    
+    \only<2>{
+        \textbf{Intégration de \blue{a} et \red{b} pour $N$ géométries}
+    $$\argmin_{\blue{u}, \red{v}} \sum_{n\leq N} \sum_{t, h} 
+        \left\| \begin{pmatrix} \blue{u_{next(h)} - u_h} \\ \red{v_{next(h)} - v_h} \end{pmatrix}  - \begin{pmatrix} 
+            < \blue{a_{t, n}}, \green{g_{next(h), n} - g_{h, n}} > \\ < \red{b_{t, n}}, \green{g_{next(h), n} - g_{h, n}} >\end{pmatrix} \right\|^2 $$}
+
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+            \item \( t \) : triangles du maillage
+            \item \( h \) : demi-arêtes de \( t \)
+            \item \( g \) : coordonnées (x, y)
+            \end{itemize}
+        \end{column}
+    
+        \begin{column}{0.5\textwidth}
+            \includegraphics[width=.8\linewidth]{img/new_images/tri_g_u_v.PNG}
+        \end{column}
+    \end{columns}
+\end{frame}
+\iffalse
 \begin{frame}{Carte sans couture adapté à la déformation}
     On fait la moyenne des $N$ champ de repère: 
     $$ \mu_i = \frac{1}{N} \sum_{n \leq N} \mu_{i, n} $$
@@ -59,6 +114,7 @@
         \det \left(u_{j} - u_{i}, u_{k} - u_{i} \right) > 0
     \end{equation*}
 \end{frame}
+\fi
 
 \begin{frame}{Résultats: Maillage quadrilatère avant et après adaptation}
     \begin{figure}
@@ -66,7 +122,7 @@
         \includegraphics[width=0.5\linewidth]{img/quadsimu/deformation_same_step.PNG}
     \end{figure}
 \end{frame}
- 
+ \iffalse
 \begin{frame}{Adaptation progressive à la déformation}
     \begin{figure}
         \centering
@@ -75,6 +131,7 @@
         \only<3>{\includegraphics[width=0.69\linewidth]{img/quadsimu/seal_simu_3.PNG}}
     \end{figure}
 \end{frame}
+\fi
 
 \begin{frame}{Résultats: comparaison avec une autre méthode automatique}
     \begin{figure}
