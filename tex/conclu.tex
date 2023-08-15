@@ -3,12 +3,12 @@
         \item Une seule géométrie en entrée:
         \begin{itemize}
             \item Champ de repère adapté à des modèles CAO.
-            \item Correction des problèmes de non-intégrabilité.
             \item Quantification sans recalcul de paramétrisation.
+            \item Correction des problèmes de non-intégrabilité.
             %\item Implémentation web (ThreeJS + WebAssembly) : \url{ddesobry.github.io/quadmesher.html}
             \item 100\% de réussite sur la b.d.d Mambo [\cite{ledoux_mambo_2019}] 
         \end{itemize}
-        \pause
+        \only<2>{
         \item Plusieurs géométries en entrée:
         \begin{itemize}
             \item Valences de bord adaptées aux géométries.
@@ -16,14 +16,18 @@
             \item Alternance automatisée entre simulation et maillage. 
             \item 3 simulations industrielles réalisées automatiquement. 
         \end{itemize}
+        }
     \end{enumerate}
+    \only<1>{
+        \includegraphics[width=\linewidth]{img/quadsimu/5_meshes_min.png}
+    }
 \end{frame}
     
 \iffalse
 \begin{frame}{Travail réalisé : Maillage hexaédrique 3D}
     \begin{enumerate}
         \item Réparation incrémentale des graphes de singularité
-        \item Champ de repère avec singularités de bord imposés.
+        \item Champ de repère avec singularités de bord imposées.
     \end{enumerate}
 
     \begin{itemize}
@@ -36,14 +40,16 @@
 \fi
 
 \begin{frame}{Travail réalisé : Maillage hexaédrique 3D}
+    \small
     \centering
     \begin{enumerate}
         \item Réparation de graphe de singularité de champ de repère \label{enum:reparation}
-        \item Champ de repère avec singularités de bord imposés. \label{enum:champ}
+        \item Champ de repère avec singularités de bord imposées. \label{enum:champ}
     \end{enumerate}
     %L'algorithme de calcul de champ de repère est \cite{ray_practical_2016}
     \begin{table}
     \centering
+    \scriptsize
     \begin{tabular}{|l|c|c|c|}
     \hline
     Base de données & [\cite{ray_practical_2016}] & + (\ref{enum:reparation}) & + (\ref{enum:champ}) \\
@@ -57,6 +63,17 @@
     \end{tabular}
     \end{table}
     \% de maillages réussis  en fonction de l'utilisation de (\ref{enum:reparation}) et (\ref{enum:champ})
+    \only<1>{
+        \begin{columns}[T] % align columns
+            \centering
+            \begin{column}{.45\linewidth}
+                \includegraphics[width=\linewidth]{img/hexmeshing_ff/resultats_3.png}
+            \end{column}
+            \begin{column}{.45\linewidth}
+                \includegraphics[width=\linewidth]{img/hexmeshing_ff/prescribed_valences.png}
+            \end{column}
+        \end{columns}
+    }
 \end{frame}
 
 \iffalse
@@ -77,6 +94,7 @@
 \fi
 
 \begin{frame}{Perspectives}
+    \scriptsize
     \begin{table}
         \centering
         \begin{tabular}{|l|c|c|c|}
@@ -91,10 +109,11 @@
         \hline
         \end{tabular}
     \end{table}
-    \textbf{Améliorations requises pour avoir une méthode exploitable:}
+    \small
+    \textbf{Pistes d'amélioration de la paramétrisation globale 3D :}
     \begin{enumerate}
         \item Correction champ de repère : Méthode de correction robuste des graphes de singularités intérieurs [\cite{liu2023locally}].
         \item Initialisation champ de repère : Méthode automatique pour déterminer des valences sur le bord valides.
-        \item Quantification rapide : Résoudre le problème de quantification par une méthode gloutonne comme en 2D.
+        \item Quantification 3D sans recalcul de paramétrisation : Décimation du maillage tétrahédrique d'entrée et résolution gloutonne.%Résoudre le problème de quantification sur un maillage tétraédrique décimé.
     \end{enumerate}
 \end{frame}
