@@ -5,7 +5,7 @@
             \item Champ de repère adapté à des modèles CAO.
             \item Correction des problèmes de non-intégrabilité.
             \item Quantification sans recalcul de paramétrisation.
-            \item Implémentation web (ThreeJS + WebAssembly) : \url{ddesobry.github.io/quadmesher.html}
+            %\item Implémentation web (ThreeJS + WebAssembly) : \url{ddesobry.github.io/quadmesher.html}
             \item 100\% de réussite sur la b.d.d Mambo [\cite{ledoux_mambo_2019}] 
         \end{itemize}
         \pause
@@ -14,7 +14,7 @@
             \item Valences de bord adaptées aux géométries.
             \item Intégration sur toutes les géométries.
             \item Alternance automatisée entre simulation et maillage. 
-            \item 3/5 simulations industrielles réalisées automatiquement. 
+            \item 3 simulations industrielles réalisées automatiquement. 
         \end{itemize}
     \end{enumerate}
 \end{frame}
@@ -59,6 +59,7 @@
     \% de maillages réussis  en fonction de l'utilisation de (\ref{enum:reparation}) et (\ref{enum:champ})
 \end{frame}
 
+\iffalse
 \begin{frame}{Perspectives}
     \textbf{Maillage quadrilatère:}
     \begin{itemize}
@@ -72,4 +73,28 @@
         \item Correction champ de repère : Méthode de correction robuste des graphes de singularités intérieurs [\cite{liu2023locally}].
         \item Quantification rapide : Résoudre le problème de quantification par une méthode gloutonne comme en 2D.
     \end{itemize}
+\end{frame}
+\fi
+
+\begin{frame}{Perspectives}
+    \begin{table}
+        \centering
+        \begin{tabular}{|l|c|c|c|}
+        \hline
+        Base de données & [\cite{ray_practical_2016}] & + (\ref{enum:reparation}) & + (\ref{enum:champ}) \\
+        \hline
+        Mambo-Basique & 18\% & 40\% & 69\% \\
+        \hline
+        Mambo-Simple & 0\% & 21\% & 34\% \\
+        \hline
+        Mambo-Medium & 0\% & 0\% & 0\% \\
+        \hline
+        \end{tabular}
+    \end{table}
+    \textbf{Améliorations requises pour avoir une méthode exploitable:}
+    \begin{enumerate}
+        \item Correction champ de repère : Méthode de correction robuste des graphes de singularités intérieurs [\cite{liu2023locally}].
+        \item Initialisation champ de repère : Méthode automatique pour déterminer des valences sur le bord valides.
+        \item Quantification rapide : Résoudre le problème de quantification par une méthode gloutonne comme en 2D.
+    \end{enumerate}
 \end{frame}

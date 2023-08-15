@@ -75,17 +75,24 @@
 \quad Simon CALDERAN, Emmanuel JEANDEL\\}
 \begin{center}
     \noindent
-    \begin{minipage}{.33\textwidth}
+    \begin{minipage}{.195\textwidth}
         \centering
     \includegraphics[width=.8\linewidth]{inria.jpg}
     \end{minipage}%
-    \begin{minipage}{.33\textwidth}
+    \begin{minipage}{.195\textwidth}
+        \centering
+        \includegraphics[width=.6\linewidth]{img/new_images/loria.png}
+    \end{minipage}
+    \begin{minipage}{.195\textwidth}
     \centering
     \includegraphics[width=.8\linewidth]{UL.png}
     \end{minipage}%
-    \begin{minipage}{.33\textwidth}
+    \begin{minipage}{.195\textwidth}
         \centering
     \includegraphics[width=.6\linewidth]{total_energies.jpg}
+    \end{minipage}
+    \begin{minipage}{.195\textwidth}
+        \includegraphics[width=.6\linewidth]{img/new_images/hutchinson.png}
     \end{minipage}
 \end{center}
 }
@@ -95,38 +102,35 @@
 
 \frame{\titlepage}
 
-
 \begin{frame}
     \frametitle{Plan de la présentation}
     \tableofcontents[currentsection, sectionstyle=show/show, subsectionstyle=show/hide/hide]
 \end{frame}
 
-\section{Maillage hexaédrique et simulation de déformation}
+\section{État de l'art : Qualité de maillage et simulation de déformation}
 
-\begin{frame}
-    \frametitle{Plan de la présentation}
-    \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
-\end{frame}
-
-\subsection{Introduction aux simulations numériques de déformation}
+\subsection{Introduction aux simulations numériques et aux maillages}
 \begin{frame}
     \frametitle{Plan de la présentation}
     \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
 \end{frame}
 \input{tex/introsimu.tex}
 
-\subsection{Maillage hexaédrique à partir d'un champ de repère}
+\subsection{Objectifs de la thèse}
+\begin{frame}
+    \frametitle{Plan de la présentation}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+\input{tex/objectif_these.tex}
+
+\subsection{Maillage de haute qualité par paramétrisation globale}
 \begin{frame}
     \frametitle{Plan de la présentation}
     \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
 \end{frame}
 \input{tex/cubecover.tex}
 
-\section{Contribution: Champ de repère pour générer un maillage CAO }
-\begin{frame}
-    \frametitle{Plan de la présentation}
-    \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
-\end{frame}
+\section{Contribution 1 : Champ de repère pour générer un maillage CAO } 
 
 \subsection{Champ de repère 2D non-orthogonal}
 \begin{frame}
@@ -157,11 +161,8 @@
 %\end{frame}
 %\input{tex/3Dff}
 
-\section{Contribution: Quadcover pour des simulations de déformation 2D}
-\begin{frame}
-    \frametitle{Plan de la présentation}
-    \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
-\end{frame}
+\section{Contribution 2 : Quadcover pour des simulations de déformation 2D}
+
 \subsection{Algorithme de quantification 2D rapide, robuste et open source}
 \begin{frame}
     \frametitle{Plan de la présentation}
@@ -169,24 +170,25 @@
 \end{frame}
 \input{tex/quantiz}
 
-\subsection{Génération de maillage adapté à des déformations avec Quadcover}
+\subsection{Génération de maillage adapté à des déformations}
 \begin{frame}
     \frametitle{Plan de la présentation}
     \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
 \end{frame}
 \input{tex/deformation}
 
-\section{Conclusion, Perspectives}
+\section{Conclusions, Perspectives}
 \begin{frame}
     \frametitle{Plan de la présentation}
     \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
 \end{frame}
 \input{tex/conclu}
 
-
+\iffalse
 \begin{frame}[allowframebreaks]{Bibliographie}
     \printbibliography
 \end{frame}
+\fi
 \frame{\titlepage}
 %\printbibliography
 \end{document}

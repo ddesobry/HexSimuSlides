@@ -11,12 +11,12 @@
     \textbf{Maillage:}
     \begin{itemize}
       \item Division d'un domaine en éléments discrets pour l'analyse numérique.
-      \item Émergence : 1950s (Boeing, Nasa, ...).
+      \item Émergence : 1950s (Aéronautique, Spatial).
     \end{itemize}
   
 \end{frame}
 
-
+\iffalse
 \begin{frame}{Simulation Numérique et Maillage : Exemple}
     \textbf{Propagation d'onde mécanique dans un téléphone}
     %\end{block}
@@ -34,13 +34,14 @@
         \begin{column}{0.6\textwidth}
             \includegraphics[width=\linewidth]{img/new_images/phone_drop.png}
             \centering
-            Chute d'un téléphone [ANSYS]\\
-            \scriptsize{\url{https://www.youtube.com/watch?v=gVz3eJrMMmM}}
+            ANSYS [\cite{kohnke1982ansys}]\\
+            %\scriptsize{\url{https://www.youtube.com/watch?v=gVz3eJrMMmM}}
         \end{column}
     \end{columns}
 \end{frame}
+\fi
 
-\begin{frame}{Pourquoi des maillages hexaédriques ?}
+\begin{frame}{Pourquoi des maillages quadrilatères / hexaédriques ?}
     \begin{columns}[T] % align columns
         \begin{column}{.4\textwidth}
             \textbf{Pour les simulations de grandes déformations hyper-élastiques :}
@@ -48,54 +49,25 @@
             %Pour la mécanique de matériaux hyper-élastiques:
             \begin{itemize}
                 \item En 2D, maillage quadrilatère plutôt que triangulaire
-                \item En 3D, maillage hexaédrique plutôt que tétraédrique
+                \only<2> {\item En 3D, maillage hexaédrique plutôt que tétraédrique}
             \end{itemize}
         \end{column}%
         
         \begin{column}{.6\textwidth}
-            \includegraphics[width=1.\linewidth]{img/new_images/simu_hutchinson_2d3d.png}
+            \only<1> {
+                \centering \small     
+                \includegraphics[width=.8\linewidth]{img/choix_maillage/deformation_low_angle.png}\\
+                Le maillage quadrilatère préserve des\\ angles de $90^\circ$ malgré la déformation
+            }
+            \only<2> {
+                \centering \small     
+                \includegraphics[width=.8\linewidth]{img/new_images/simu_hutchinson_2d3d.png}\\
+                Simulation de déformation de joints\\ en caoutchouc par Hutchinson
+            }
         \end{column}
     \end{columns}
 \end{frame}
 
-\begin{frame}{Maillages Quadrilatères et Hexaédriques : Challenges}
-    \begin{columns}[T] % align columns
-        \begin{column}{.5\textwidth}
-            %Un maillage non-structuré pose des problèmes de convergence. \vspace*{.2cm}\\
-            \textbf{Qualité du maillage}
-            \begin{itemize}
-                \item Alignement avec les bords
-                \item Angles proche de 90°
-                \item Peu de singularités
-            \end{itemize}
-            
-            \textbf{Pas d’algorithme générique}
-            \begin{itemize}
-                \item Intervention humaine
-                \item Subdivision manuelle en blocs structurés
-                \item Plusieurs semaines/mois pour construire un maillage
-            \end{itemize}
-        \end{column}%
-        
-        \begin{column}{.5\textwidth}
-            \includegraphics[width=\linewidth]{img/new_images/qualite_maillage_important.PNG}
-        \end{column}
-    \end{columns}
-\end{frame}
 
-\begin{frame}{Objectif de la thèse}
-    \centering
-    \textbf{Automatiser la génération de maillage quad/hex de haute qualité pour les simulations de grandes déformations}.\\ \vspace{1em}
-    \only<1>{ 
-        \begin{tabular}{c|c}
-            \textit{Entrée} : Maillage tri & \textit{Sortie} : Maillage quad $< 1$ min\\ \hline \\
-             \includegraphics[width=0.45\linewidth]{img/new_images/entree_maillage_tri.png} &  \includegraphics[width=0.45\linewidth]{img/new_images/sortie_maillage_quad.png} \\
-        \end{tabular}
-    }
-    \only<2>{
-        \begin{tabular}{c|c}
-            \textit{Entrée} : Maillage tétra & \textit{Sortie} : Maillage hex $< 1$ min\\ \hline \\
-             \includegraphics[width=0.45\linewidth]{img/new_images/entree_maillage_tet.png} &  \includegraphics[width=0.45\linewidth]{img/new_images/sortie_maillage_hex.png} \\
-        \end{tabular}
-    }
-\end{frame}
+
+

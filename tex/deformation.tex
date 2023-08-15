@@ -1,3 +1,5 @@
+\iffalse
+
 \begin{frame}{Adaptation d'un maillage quad à une simulation}
     \begin{enumerate}
         \item Générer un premier maillage quad \( Q_0 \)
@@ -14,6 +16,7 @@
         \draw[->, thick] (start) to[bend left=80] (end);
     \end{tikzpicture}
 \end{frame}
+\fi
 
 \iffalse
 \begin{frame}{Algorithm - Alternance maillage et simulation}
@@ -39,7 +42,7 @@
     \end{algorithm}
 \end{frame}
 
-\begin{frame}{Déterminer des valences de bord adaptés à la déformation}
+\begin{frame}{Déterminer des valences de bord adaptées à la déformation}
     \small
     \begin{figure}
         \centering
@@ -50,14 +53,14 @@
     \end{figure}
 \end{frame}
 \fi
-\begin{frame}{Problème: Valences inadaptés à une déformation}
+\begin{frame}{Problème: Valences inadaptées à une déformation}
     \begin{figure}
         \centering
         \includegraphics[width=\linewidth]{img/new_images/echec_simu.PNG}
         \caption{Les positions de singularités optimales pour une géométrie initiale peuvent conduire à des quadrilatères de mauvaise qualité après une déformation.}
     \end{figure}
 \end{frame}
-\begin{frame}{Déterminer des valences de bord adaptés à la déformation}
+\begin{frame}{Déterminer des valences de bord adaptées à la déformation}
     \begin{columns}[c] % Le paramètre 'c' centre verticalement le contenu
 
         \column{0.5\textwidth}  % Largeur de la colonne de gauche
@@ -69,6 +72,7 @@
         \only<3>{\includegraphics[width=\linewidth]{img/new_images/simu_fin_verrin.PNG}}
     \end{columns}
 \end{frame}
+\iffalse
 \begin{frame}{Intégration à plusieurs géométries en entrée}
     \centering
     \only<1>{\textbf{Intégration de \blue{a} et \red{b} pour une géométrie}
@@ -96,7 +100,6 @@
         \end{column}
     \end{columns}
 \end{frame}
-\iffalse
 \begin{frame}{Carte sans couture adapté à la déformation}
     On fait la moyenne des $N$ champ de repère: 
     $$ \mu_i = \frac{1}{N} \sum_{n \leq N} \mu_{i, n} $$
@@ -116,11 +119,26 @@
 \end{frame}
 \fi
 
-\begin{frame}{Résultats: Maillage quadrilatère avant et après adaptation}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.5\linewidth]{img/quadsimu/deformation_same_step.PNG}
-    \end{figure}
+\begin{frame}{Maillage quadrilatère avant et après adaptation}
+    \begin{columns}[T] % align columns
+        \begin{column}{.5\textwidth}
+        \vspace{1cm}
+        \textbf{Avant adaptation:} \\
+        Le joint traverse son support et la simulation échoue.
+        
+        \vspace{1.7cm}
+        
+        \textbf{Après adaptation:} \\
+        Le joint se plie au niveau des points rouges de valence 3 et la simulation réussit.
+        \end{column}%
+        
+        \begin{column}{.5\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=\linewidth]{img/quadsimu/deformation_same_step.PNG}
+        \end{figure}
+        \end{column}
+    \end{columns}
 \end{frame}
  \iffalse
 \begin{frame}{Adaptation progressive à la déformation}
@@ -133,14 +151,14 @@
 \end{frame}
 \fi
 
-\begin{frame}{Résultats: comparaison avec une autre méthode automatique}
+\begin{frame}{Comparaison avec une autre méthode automatique}
     \begin{figure}
         \centering
         \includegraphics[width=0.99\textwidth]{img/quadsimu/comparison_with_bad_quality_mesh.PNG}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Résultats: comparaison avec une méthode semi-manuelle}
+\begin{frame}{Comparaison avec une méthode semi-manuelle}
     \begin{figure}
         \centering
         \only<1>{\includegraphics[width=0.99\textwidth]{img/introduction/hutchinson_sapin.PNG}}

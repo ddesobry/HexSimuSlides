@@ -18,9 +18,9 @@
     
     \vspace*{0.3cm}
     \begin{itemize}
-        \item Ce travail propose une représentation polynomiale des repères.
-        \item Cette représentation permet l'optimisation de champ de repère 3D non-orthogonaux.
-    \end{itemize}
+        \item Les champs 3D orthogonaux ne gèrent pas les coins de petit angle.
+        \item Ce travail permet l'optimisation de repère 3D non-orthogonaux.
+   \end{itemize}
     
 \end{frame}
 
@@ -41,11 +41,11 @@
      %  & \mathcal{S}_{\{0, 1\}}^3 \to {\rm I\!R}
     %\end{align*}
 \end{frame} 
-\begin{frame}{Spherical Harmonic basis}
+\begin{frame}{Base des Harmoniques Sphériques}
     \centering
     \begin{overprint}
     \onslide<2> \centering
-    Avec un repère orthogonal, nous retrouvons les résultats antérieurs\\
+    Avec $u \perp v \perp w$, même représentation que [\cite{huang_boundary_2011}].\\
     
     %Polynomials of 3D orthogonal frames can be decomposed as:
     \begin{minipage}[c]{0.24\textwidth}
@@ -89,9 +89,9 @@
 \begin{frame}{Optimisation d'un champ de repère non-orthogonal 3D}
     \centering
     \footnotesize
-     De la décomposition dans la base des Harmoniques, nous définissons:
+    Distance par décomposition dans la base des Harmoniques Sphériques:
     $$ dist(\mathcal{U}_i, \mathcal{U}_j) = \int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2 = \sum_{\ell, m} \left({\color{green}c_{\ell,m}(\mathcal{U}_i)} - {\color{green}c_{\ell,m}(\mathcal{U}_j)} \right)^2$$
-    Pour calculer un champ de repère non-orthogonal 3D lisse, nous minimisons avec LBFGS l'énergie suivante :
+    Pour calculer un champ de repère non-orthogonal 3D lisse, minimiser :
     %To compute smoothed frame field, we minimize with LBFGS 
     $$ E_{tot} = \sum_{Voisins(i, j)} dist(\mathcal{U}_i, \mathcal{U}_j)$$
     %\vspace*{.5\baselineskip}

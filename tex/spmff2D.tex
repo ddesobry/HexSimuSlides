@@ -30,19 +30,19 @@
     
     \vspace*{0.3cm}
     \begin{itemize}
-         \item Les champs orthogonaux ne gèrent pas les coins de petit angle
-         \item Ils ne sont donc pas adaptés en l'état aux modèles CAO
+         \item Les champs 2D orthogonaux ne gèrent pas les coins de petit angle.
+         \item Ce travail permet l'optimisation de repère 2D non-orthogonaux.
     \end{itemize}
     
 \end{frame}
 
-\begin{frame}{Qu'est ce qui est difficile ?}
+\begin{frame}{Qu'est-ce qui est difficile ?}
     \centering
     %To compare two 2D frames, we can't directly compare their vectors $(\vec{u}, \vec{v})$, as a same frame is given by many different combinations of vectors : 
     \small
     \begin{itemize}
      \item Un repère est défini comme un ensemble de vecteurs : $$\mathcal{U} = \left\{\vec{u},\ -\vec{u},\ \vec{v},\ -\vec{v}\right\}$$ 
-     \item Nous voulons minimiser la "distance" entre les repères voisins d'un champ
+     \item Comment minimiser la "distance" entre les repères voisins d'un champ ?
      
      %\item Distance definition between 2 sets $\mathcal{U}_i$ and $\mathcal{U}_j$ ?
      %\item Using distance of vectors induces finding a matching between sets \\%If you want to compare sets by comparing their vectors, you need to match each vector\\
@@ -54,11 +54,13 @@
     \includegraphics[width=0.6\linewidth]{img_spm_ff/dist_question.PNG}
       %\includegraphics[width=0.8\linewidth]{vector_dist_1.PNG}
       %\includegraphics[width=0.8\linewidth]{vector_dist_2.PNG}
-    \onslide<2> \centering
+    \onslide<2> 
+            \centering
       \includegraphics[width=\linewidth]{img_spm_ff/dist_sol.PNG}
+        
+        Problème : Cette définition de distance est trop difficile à minimiser globalement de part sa nature combinatoire (choix de correspondance).
     
     \end{overprint}
-    
     \normalsize
 \end{frame}
 
@@ -86,7 +88,7 @@ $$P_\mathcal{U}(\vec{s}) = \langle \vec{u},\ \vec{s}\rangle^{4} +  \langle \vec{
     \centering
     \begin{overprint}
     \onslide<2> \centering
-    Avec $v = u^{\perp}$ nous obtenons la même définition de distance que les travaux antérieurs.
+    Avec $v = u^{\perp}$, même représentation que [\cite{palacios_rotational_2007}].
     
     \includegraphics[width=0.95\linewidth]{img_spm_ff/ortho_decomposition_with_circle.PNG}
     
@@ -106,7 +108,7 @@ $$P_\mathcal{U}(\vec{s}) = \langle \vec{u},\ \vec{s}\rangle^{4} +  \langle \vec{
     \small
     %From the decomposition in the Fourier basis, we define
     %$$ dist(\mathcal{U}_i, \mathcal{U}_j) =  \int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2 = \sum_{\ell=1}^4 \left({\color{green}c_\ell(\mathcal{U}_i)} - {\color{green}c_\ell(\mathcal{U}_j)} \right)^2$$
-    Pour calculer un champ de repère non-orthogonal 2D lisse, nous minimisons avec LBFGS l'énergie suivante :
+    Pour calculer un champ de repère non-orthogonal 2D lisse, minimiser :
     $$ E_{tot} = \sum_{Voisins(i, j)} dist(\mathcal{U}_i, \mathcal{U}_j)$$
     
     Contrôle de l'orthogonalité: $c_1, c_2, c_3, c_4 \mapsto \lambda c_1, \lambda c_2, c_3, c_4$ 
