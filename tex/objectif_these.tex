@@ -2,7 +2,7 @@
     \begin{columns}[T] % align columns
         \begin{column}{.5\textwidth}
             %Un maillage non-structuré pose des problèmes de convergence. \vspace*{.2cm}\\
-            \textbf{Qualité du maillage}
+            \textbf{Qualité} [\cite{knupp_remarks_2007}]
             \begin{itemize}
                 \item Alignement avec les bords
                 \item Angles proche de 90°
@@ -28,14 +28,16 @@
     \textbf{Automatiser la génération de maillage quad/hex de haute qualité pour les simulations de grandes déformations}.\\ \vspace{1em}
     \only<1>{ 
         \begin{tabular}{c|c}
-            \textit{Entrée} : Maillage tri & \textit{Sortie} : Maillage quad $< 1$ min\\ \hline \\
-             \includegraphics[width=0.45\linewidth]{img/new_images/entree_maillage_tri.png} &  \includegraphics[width=0.45\linewidth]{img/new_images/sortie_maillage_quad.png} \\
+            \textit{Entrée} : Maillage tri & \textit{Sortie} : Maillage quad \\Triangles [\cite{shewchuk_triangle_2005}] & $< 1$ min \\ \hline \\
+            \includegraphics[width=0.45\linewidth]{img/new_images/entree_maillage_tri.png} &  \includegraphics[width=0.45\linewidth]{img/new_images/sortie_maillage_quad.png} \\
+            
         \end{tabular}
     }
     \only<2>{
         \begin{tabular}{c|c}
-            \textit{Entrée} : Maillage tétra & \textit{Sortie} : Maillage hex $< 1$ min\\ \hline \\
-             \includegraphics[width=0.4\linewidth]{img/new_images/entree_maillage_tet.png} &  \includegraphics[width=0.4\linewidth]{img/new_images/sortie_maillage_hex.png} \\
+            \textit{Entrée} : Maillage tétra  & \textit{Sortie} : Maillage hex \\ Tetgen [\cite{si_tetgen_2015}] &  $< 1$ min \\ \hline \\
+            \includegraphics[width=0.4\linewidth]{img/new_images/entree_maillage_tet.png} &  \includegraphics[width=0.4\linewidth]{img/new_images/sortie_maillage_hex.png} \\
+
         \end{tabular}
     }
     \only<3>{
