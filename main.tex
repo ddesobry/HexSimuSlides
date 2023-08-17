@@ -102,6 +102,29 @@
 
 \frame{\titlepage}
 
+\begin{frame}{Partenariat entre Hutchinson et l'équipe PIXEL}
+    \centering
+    
+    \only<1>{
+        \textbf{Hutchinson : Filiale de TotalEnergies} \\
+        \begin{itemize}
+            \item Spécialiste de la simulation de grande déformation hyper-élastique des élastomères. 
+            \item Propriétaire du logiciel de simulation Numea :
+        \end{itemize}
+        \includegraphics[width=.8\linewidth]{img/introduction/hutchinson_sapin.PNG}
+    }
+    
+    \only<2>{
+        \textbf{Équipe PIXEL : Inria Nancy Grand-Est} \\
+        \begin{itemize}
+            \item Spécialiste des méthodes de paramétrisation globale.
+        \end{itemize}
+        \includegraphics[width=\linewidth]{img/cubecover/pipeline.PNG}
+    }
+\end{frame}
+
+
+
 \begin{frame}
     \frametitle{Plan de la présentation}
     \tableofcontents[currentsection, sectionstyle=show/show, subsectionstyle=show/hide/hide]
@@ -131,10 +154,18 @@
 \input{tex/cubecover.tex}
 
 \section{Contribution 1 : Champ de repère pour générer un maillage CAO } 
-
+\begin{frame}{Plan de la présentation}
+    \tableofcontents[currentsection, sectionstyle=show/hide, subsectionstyle=hide/hide/hide]
+    %\includegraphics[width=\linewidth]{img/cubecover/pipeline.PNG}
+    \begin{tikzpicture}
+        \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{img/cubecover/pipeline.PNG}};
+        \begin{scope}[x={(image.south east)},y={(image.north west)}]
+            \draw[red, thick] (0,0) rectangle (.25,1); % Ajuster les coordonnées si nécessaire
+        \end{scope}
+    \end{tikzpicture}
+\end{frame}
 \subsection{Champ de repère 2D non-orthogonal}
-\begin{frame}
-    \frametitle{Plan de la présentation}
+\begin{frame}{Plan de la présentation}
     \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
 \end{frame}
 \input{tex/spmff2D}
@@ -161,20 +192,41 @@
 %\end{frame}
 %\input{tex/3Dff}
 
-\section{Contribution 2 : Quadcover pour des simulations de déformation 2D}
-
-\subsection{Algorithme de quantification 2D rapide, robuste et open source}
+\section{Contribution 2 : Quantification de paramétrisation 2D}
+\begin{frame}{Plan de la présentation}
+    \tableofcontents[currentsection, sectionstyle=show/hide, subsectionstyle=hide/hide/hide]
+    %\includegraphics[width=\linewidth]{img/cubecover/pipeline.PNG}
+    \begin{tikzpicture}
+        \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=\linewidth]{img/cubecover/pipeline.PNG}};
+        \begin{scope}[x={(image.south east)},y={(image.north west)}]
+            \draw[red, thick] (0.76,0) rectangle (1,1); % Ajuster les coordonnées si nécessaire
+        \end{scope}
+    \end{tikzpicture}
+\end{frame}
+\subsection{État de l'art : QGP [\cite{campen_quantized_2015}]}
+\begin{frame}
+    \frametitle{Plan de la présentation}
+    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+\end{frame}
+\input{tex/qgp}
+\subsection{Contribution : Quantification sans recalcul de paramétrisation}
 \begin{frame}
     \frametitle{Plan de la présentation}
     \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
 \end{frame}
 \input{tex/quantiz}
 
-\subsection{Génération de maillage adapté à des déformations}
+\section{Contribution 3 : Maillage quadrilatère adapté à des déformations}
 \begin{frame}
     \frametitle{Plan de la présentation}
-    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+    \tableofcontents[currentsection, sectionstyle=show/shaded, subsectionstyle=show/show/hide]
 \end{frame}
+%\subsection{Alternance entre maillage et simulation}
+%\subsection{Valences adaptées aux géométries de déformations}
+%\begin{frame}
+%    \frametitle{Plan de la présentation}
+%    \tableofcontents[currentsubsection, sectionstyle=show/shaded, subsectionstyle=show/shaded/hide]
+%\end{frame}
 \input{tex/deformation}
 
 \section{Conclusions, Perspectives}

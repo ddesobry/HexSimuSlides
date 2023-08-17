@@ -1,25 +1,32 @@
 \begin{frame}{Travail réalisé : Maillage quadrilatère 2D}
+    \centering
     \begin{enumerate}
-        \item Une seule géométrie en entrée:
+        \item Une seule géométrie en entrée :
         \begin{itemize}
             \item Champ de repère adapté à des modèles CAO.
             \item Quantification sans recalcul de paramétrisation.
-            \item Correction des problèmes de non-intégrabilité.
             %\item Implémentation web (ThreeJS + WebAssembly) : \url{ddesobry.github.io/quadmesher.html}
-            \item 100\% de réussite sur la b.d.d Mambo [\cite{ledoux_mambo_2019}] 
+            \only<2-3>{
+                \item Correction des problèmes de non-intégrabilité.    
+                \item 100\% de réussite sur la b.d.d Mambo [\cite{ledoux_mambo_2019}]
+            }
         \end{itemize}
-        \only<2>{
-        \item Plusieurs géométries en entrée:
-        \begin{itemize}
-            \item Valences de bord adaptées aux géométries.
-            \item Intégration sur toutes les géométries.
-            \item Alternance automatisée entre simulation et maillage. 
-            \item 3 simulations industrielles réalisées automatiquement. 
-        \end{itemize}
+        \only<3>{
+            \item Maillage quad pour une simulation de déformation :
+            \begin{itemize}
+                \item Alternance automatisée entre simulation et maillage. 
+                \item Valences de bord adaptées aux géométries de déformation.
+                \item 3 simulations industrielles réalisées automatiquement. 
+            \end{itemize}
         }
     \end{enumerate}
     \only<1>{
+        \vspace{2em}
         \includegraphics[width=\linewidth]{img/quadsimu/5_meshes_min.png}
+    }
+    \only<2>{
+        %\includegraphics[width=.49\linewidth]{img/quadsimu/solve_sharkanulus_2}
+        \includegraphics[width=.7\linewidth]{img/quadsimu/sharkanulus_mambo}
     }
 \end{frame}
     

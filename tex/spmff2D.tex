@@ -12,7 +12,7 @@
     
     \begin{minipage}[c]{0.48\textwidth}
     \centering 
-    \textbf{Orthogonal fields}\\
+    \textbf{Champ orthogonal}\\
     \vspace{0.3cm}
     \begin{adjustbox}{width=0.8\linewidth,clip,trim=0 0 {.48\width} 0}
         \includegraphics{img_spm_ff/comp1.png}
@@ -21,7 +21,7 @@
     \hfill\vline\hfill
     \begin{minipage}[c]{0.48\textwidth}
     \centering 
-    \textbf{Non-orthogonal fields}\\
+    \textbf{Champ non-orthogonal}\\
     \vspace{0.3cm}
     \begin{adjustbox}{width=0.75\linewidth,clip,trim={.52\width} 0 0 0}
         \includegraphics{img_spm_ff/comp1.png}
@@ -30,8 +30,8 @@
     
     \vspace*{0.3cm}
     \begin{itemize}
-         \item Les champs 2D orthogonaux ne gèrent pas les coins de petit angle.
-         \item Ce travail permet l'optimisation de repère 2D non-orthogonaux.
+         \item Un champ 2D orthogonal ne gère pas les coins de petit angle.
+         \item Ce travail permet l'optimisation de repères 2D non-orthogonaux.
     \end{itemize}
     
 \end{frame}
@@ -143,3 +143,12 @@ $$P_\mathcal{U}(\vec{s}) = \langle \vec{u},\ \vec{s}\rangle^{4} +  \langle \vec{
     \end{minipage}
 \end{frame} 
 
+\begin{frame}{Maillages obtenus avec des champs non-orthogonaux}
+    \centering
+    \includegraphics[width=.49\textwidth]{img/spmff/shuriken_nonortho}
+    \includegraphics[width=.49\textwidth]{img/spmff/shuriken_center_singu}
+    %\includegraphics[width=.49\textwidth]{img/spmff/shuriken_fleches}
+    %\includegraphics[width=.49\textwidth]{img/spmff/quads_nonortho_shurik0}
+    %\includegraphics[width=.49\textwidth]{img/spmff/quads_ortho_shurik0}
+    %\includegraphics[width=.49\textwidth]{img/spmff/quads_nonortho_shurik0}
+\end{frame}

@@ -4,22 +4,22 @@
     
     \begin{minipage}[c]{0.48\textwidth}
     \centering 
-    \textbf{Orthogonal fields}\\
+    \textbf{Champ orthogonal}\\
     \vspace{0.3cm}
     \includegraphics[width=.7\linewidth]{img_spm_ff/slope_ortho_front.png}
     \end{minipage}%
     \hfill\vline\hfill
     \begin{minipage}[c]{0.48\textwidth}
     \centering 
-    \textbf{Non-orthogonal fields}\\
+    \textbf{Champ non-orthogonal}\\
     \vspace{0.3cm}
     \includegraphics[width=.7\linewidth]{img_spm_ff/slope_northo_front.png}
     \end{minipage}
     
     \vspace*{0.3cm}
     \begin{itemize}
-        \item Les champs 3D orthogonaux ne gèrent pas les coins de petit angle.
-        \item Ce travail permet l'optimisation de repère 3D non-orthogonaux.
+        \item Un champ 3D orthogonal ne gère pas les coins de petit angle.
+        \item Ce travail permet l'optimisation de repères 3D non-orthogonaux.
    \end{itemize}
     
 \end{frame}
@@ -110,4 +110,28 @@
     \end{minipage}
     
     \normalsize
+\end{frame} 
+
+\iffalse
+\begin{frame}{Maillages obtenus avec des champs non-orthogonaux}
+    \includegraphics[width=.49\textwidth]{img_spm_ff/parallel.png}
+    \includegraphics[width=.49\textwidth]{img_spm_ff/joint_northo.png}
+\end{frame}
+\fi
+\begin{frame}{Maillages obtenus avec des champs non-orthogonaux}
+\begin{minipage}[c]{0.48\textwidth}
+    \centering 
+    \textbf{Champ orthogonal}\\
+    \vspace{0.3cm}
+    \includegraphics[width=.7\textwidth]{img_spm_ff/joint_ortho.png}
+    \includegraphics[width=.7\textwidth]{img_spm_ff/shear_ortho.png}
+    \end{minipage}%
+    \hfill\vline\hfill
+    \begin{minipage}[c]{0.48\textwidth}
+    \centering 
+    \textbf{Champ non-orthogonal}\\
+    \vspace{0.3cm}
+    \includegraphics[width=.7\textwidth]{img_spm_ff/joint_northo.png}
+    \includegraphics[width=.7\textwidth]{img_spm_ff/shear_1.png}
+\end{minipage}
 \end{frame} 
