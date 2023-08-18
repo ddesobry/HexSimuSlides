@@ -65,7 +65,7 @@
 \end{frame}
 
 
-\begin{frame}{Repère 2D en tant que fonction polynomiale}
+\begin{frame}{Notre solution : repère 2D en tant que polynôme}
     \centering
     
 $\mathcal{U} = \left\{\vec{u},\ -\vec{u},\ \vec{v},\ -\vec{v}\right\}$  est représenté par un polynôme \\
@@ -80,7 +80,7 @@ $$P_\mathcal{U}(\vec{s}) = \langle \vec{u},\ \vec{s}\rangle^{4} +  \langle \vec{
     \normalsize
     \begin{itemize}
     %\item $P_\mathcal{U}(\vec{s}) = \langle \vec{u},\ \vec{s}\rangle^{4} +  \langle \vec{v},\ \vec{s}\rangle^{4}, \ \ \   \forall \vec{s} \in {\rm I\!R}^2, \lVert \vec{s} \rVert = 1$
-     \item $dist(\mathcal{U}_i, \mathcal{U}_j) = \int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2$
+     \item $dist(\mathcal{U}_i, \mathcal{U}_j) = \displaystyle\int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2$
     \end{itemize}
 \end{frame}
 
@@ -96,7 +96,7 @@ $$P_\mathcal{U}(\vec{s}) = \langle \vec{u},\ \vec{s}\rangle^{4} +  \langle \vec{
     + \left({\color{green}c_4(\mathcal{U}_i)} - {\color{green}c_4(\mathcal{U}_j)} \right)^2$$
     \onslide<1> \centering
     
-    Décomposer $P_\mathcal{U}$ dans la base de Fourier simplifie $dist(\mathcal{U}_i, \mathcal{U}_j)$. \\
+    Décomposer $P_\mathcal{U}$ dans la base de Fourier simplifie $\displaystyle\int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2$. \\
     \includegraphics[width=0.95\linewidth]{img_spm_ff/polynome_decomposition_with_circle.PNG}
     $$ dist(\mathcal{U}_i, \mathcal{U}_j) =  \int (P_{\mathcal{U}_i} - P_{\mathcal{U}_j})^2 = \sum_{\ell=1}^4 \left({\color{green}c_\ell(\mathcal{U}_i)} - {\color{green}c_\ell(\mathcal{U}_j)} \right)^2$$
     \end{overprint}

@@ -1,22 +1,5 @@
-\iffalse
 
-\begin{frame}{Adaptation d'un maillage quad à une simulation}
-    \begin{enumerate}
-        \item Générer un premier maillage quad \( Q_0 \)
-        \item Exécuter la simulation jusqu'à ce qu'elle échoue
-        \item Calculer les champs de repère pour toutes les géométries intermédiaires de la simulation
-        \item Calculer une paramétrisation
-        \item Quantification et maillage quad
-    \end{enumerate}
-    
-    % Ajouter une flèche en boucle
-    \begin{tikzpicture}[overlay]
-        \node (start) at (0.3, .65) {};  % Position de départ de la flèche
-        \node (end) at (0.3, 2.9) {};    % Position d'arrivée de la flèche
-        \draw[->, thick] (start) to[bend left=80] (end);
-    \end{tikzpicture}
-\end{frame}
-\fi
+
 
 \iffalse
 \begin{frame}{Algorithm - Alternance maillage et simulation}
@@ -60,6 +43,20 @@
         \caption{Les positions de singularités optimales pour une géométrie initiale peuvent conduire à des quadrilatères de mauvaise qualité après une déformation.}
     \end{figure}
 \end{frame}
+
+\begin{frame}{Adaptation d'un maillage quad à une simulation}
+    \textbf{Alternance entre maillage et simulation} :\\
+    \begin{enumerate}
+        \item Calculer un maillage quad initial \( Q \)
+        \item TANT QUE la simulation de déformation sur le maillage \( Q \) n'atteint pas l'itération finale $N$
+        \begin{itemize}
+            \item Récupérer les maillages quadrilatères déformés
+            \item Recalculer un maillage \( Q \) adapté aux déformations récupérées
+        \end{itemize}
+    \end{enumerate}
+    
+\end{frame}
+
 \begin{frame}{Déterminer des valences de bord adaptées à la déformation}
     \begin{columns}[c] % Le paramètre 'c' centre verticalement le contenu
 
@@ -72,6 +69,7 @@
         \only<3>{\includegraphics[width=\linewidth]{img/new_images/simu_fin_verrin.PNG}}
     \end{columns}
 \end{frame}
+
 \iffalse
 \begin{frame}{Intégration à plusieurs géométries en entrée}
     \centering
@@ -159,9 +157,12 @@
 \end{frame}
 
 \begin{frame}{Comparaison avec une méthode semi-manuelle}
+    \centering
     \begin{figure}
         \centering
-        \only<1>{\includegraphics[width=0.99\textwidth]{img/introduction/hutchinson_sapin.PNG}}
+        \only<1>{\includegraphics[width=0.89\textwidth]{img/introduction/hutchinson_sapin.PNG}}
         \only<2>{\includegraphics[width=0.79\linewidth]{img/quadsimu/resistance_to_compression.PNG}}
 	\end{figure}
+    \only<1>{3 semaines pour adapter manuellement le maillage}
+    %\only<2>{2 heures d'alternance automatique maillage / simulation}
 \end{frame}
